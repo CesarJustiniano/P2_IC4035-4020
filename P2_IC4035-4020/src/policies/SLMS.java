@@ -1,12 +1,17 @@
-package servers;
+package policies;
 import java.util.Scanner;
+
+import classes.Customer;
 import classes.SLLQueue;
 
 public class SLMS {
+	
+	private SLLQueue<Customer> customerLine = new SLLQueue<Customer>();
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		SLLQueue<Object> customerLine = new SLLQueue<Object>();
+		SLLQueue<Customer> customerLine = new SLLQueue<Customer>();
 		Object[] servers;
 		int t1, t2, n, m, numServers;
 		long startService, endedService;
