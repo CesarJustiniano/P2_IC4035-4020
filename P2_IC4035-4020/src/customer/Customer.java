@@ -1,4 +1,4 @@
-package classes;
+package customer;
 
 public class Customer {
 	private long arrivalTime, remainingTime, serviceTime;
