@@ -1,6 +1,7 @@
 package servers;
 import java.util.Scanner;
-import classes.SLLQueue;
+
+import queues.SLLQueue;
 
 public class SLMS {
 
