@@ -1,11 +1,5 @@
 
 package servers;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
 
 import customer.Pair;
 import queues.SLLQueue;
@@ -13,19 +7,14 @@ import queues.ArrayQueue;
 
 public class SLMS {
 
-	public static void main(String[] args) {
-
-		
 		
 		SLLQueue<Pair> arrivalQueue = new SLLQueue<Pair>();
 		SLLQueue<Pair> serviceStartsQueue = new SLLQueue<Pair>();
 		ArrayQueue<Pair> serviceCompletedQueue = new ArrayQueue<Pair>();
-		
-	
-            
         //time input
         int time = 0;
         
+        public void Service(int size) {
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			if(!serviceStartsQueue.isEmpty()) {
 				Pair job = serviceStartsQueue.first();
@@ -35,15 +24,12 @@ public class SLMS {
 						job.setDepTime(time);
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
 					}
-					else {
-						serviceStartsQueue.enqueue(serviceStartsQueue.dequeue());
-					}
 			}
 			
 			if(!arrivalQueue.isEmpty())
 			{
 				Pair job1 = arrivalQueue.first();
-				if(job1.getArrTime()==time)
+				if(job1.getArrTime()==time || serviceStartsQueue.size() != size)
 					serviceStartsQueue.enqueue(arrivalQueue.dequeue());
 			}
 			time++;
