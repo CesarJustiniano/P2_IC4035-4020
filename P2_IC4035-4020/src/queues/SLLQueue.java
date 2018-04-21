@@ -1,4 +1,4 @@
-package classes;
+package queues;
 import interfaces.Queue;
 
 public class SLLQueue<E> implements Queue<E> {

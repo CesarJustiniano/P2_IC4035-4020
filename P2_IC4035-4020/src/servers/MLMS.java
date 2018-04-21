@@ -1,6 +1,6 @@
-package policies;
+package servers;
 
-public class MLMSBWT {
+public class MLMS {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
