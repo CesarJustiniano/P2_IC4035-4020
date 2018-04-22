@@ -1,62 +1,54 @@
 package customer;
 
 public class Customer {
-	private long arrivalTime, remainingTime, serviceTime;
 	private int iD;
-	private boolean isServed;
-	
-	public Customer(int iD){
-		this.iD = iD;
-		arrivalTime = remainingTime = serviceTime = 0;
+	private boolean isServed;  
+	private long arrivalTime; //The first int of data
+	private long serviceTime; //The second int of data
+	private long departureTime; 
+
+	public Customer() {
+		arrivalTime = serviceTime =departureTime  = 0;
 		isServed = false;
 	}
 	
-	public Customer(int iD, long arrivalTime){
+	public Customer(int iD, long arrivalTime, long serviceTime){
 		this.iD = iD;
 		this.arrivalTime = arrivalTime;
+		this.serviceTime = serviceTime;
 		isServed = false;
 	}
 
-	//Getters
-	
 	public boolean isServed() {
 		return isServed;
 	}
-
-	public long getRemainingTime() {
-		return remainingTime;
-	}
-
-	public long getServiceTime() {
-		return serviceTime;
-	}
-
+	
 	public int getiD() {
 		return iD;
 	}
-
-	public long getWaitingTime() {
-		return System.nanoTime() - arrivalTime;
-	}
-
-	public long getArrivalTime() {
-		return arrivalTime;
-	}
-
-	//Setters
-
-	public void setArrivalTime(long arrivalTime) {
+	
+	public void setArrTime(long arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
-	
-	public void setRemainingTime(long remainingTime) {
-		this.remainingTime = remainingTime;
-	}
 
-	public void setServiceTime(long serviceTime) {
+	public void setSerTime(long serviceTime) {
 		this.serviceTime = serviceTime;
 	}
 
+	public void setDepTime(long departureTime) {
+		this.departureTime = departureTime;
+	}
+	public long getArrTime() {
+		return arrivalTime;
+	}
+
+	public long getSerTime() {
+		return serviceTime;
+	}
+	public long getDepTime() {
+		return departureTime;
+	}
+	
 	public void setiD(int iD) {
 		this.iD = iD;
 	}
@@ -64,4 +56,10 @@ public class Customer {
 	public void setServed(boolean isServed) {
 		this.isServed = isServed;
 	}
+	
+	public String toString() {
+		return arrivalTime + "," + serviceTime; 
+
+	}
+	
 }
