@@ -5,22 +5,26 @@ import queues.SLLQueue;
 import queues.ArrayQueue;
 
 public class MLMS {
-
-		
-		SLLQueue<Customer> arrivalQueue = new SLLQueue<Customer>();
-		SLLQueue<Customer> serviceStartsQueue = new SLLQueue<Customer>();
-		ArrayQueue<Customer> serviceCompletedQueue = new ArrayQueue<Customer>();
-        //time input
-        int time = 0;
+	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue;
+	private ArrayQueue<Customer> serviceCompletedQueue;
+	//time input
+    private int time;
         
-        public MLMS(SLLQueue<Customer> arrivalQueue, 	SLLQueue<Customer> serviceStartsQueue, 
+    public MLMS(SLLQueue<Customer> arrivalQueue, SLLQueue<Customer> serviceStartsQueue, 
         		ArrayQueue<Customer> serviceCompletedQueue ) {
-    		 this.arrivalQueue = arrivalQueue ;
-    		this.serviceStartsQueue =  serviceStartsQueue;
-    		this. serviceCompletedQueue  =  serviceCompletedQueue ; 
-        }
+    	this.arrivalQueue = arrivalQueue ;
+    	this.serviceStartsQueue =  serviceStartsQueue;
+    	this.serviceCompletedQueue  =  serviceCompletedQueue ; 
+    	time = 0;
+    }
         
-        public void Service(int size) {
+    public void Service(int size) {
+    	int[] line = new int[size];
+    	
+    	for(int i=0;i<line.length;i++){
+    		line[i] = 0;
+    	}
+    	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			
 			if(!serviceStartsQueue.isEmpty()) {
@@ -31,19 +35,55 @@ public class MLMS {
 						job.setDepTime(time);
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
 					}
+					else{
+						serviceStartsQueue.enqueue(serviceStartsQueue.dequeue());
+					}
 			}
 			
 			if(!arrivalQueue.isEmpty())
 			{
 				Customer job1 = arrivalQueue.first();
-				if(job1.getArrTime()>=time && serviceStartsQueue.size() != size)
+				if(job1.getArrTime()>=time && serviceStartsQueue.size() < numOfWaitingLines(line) ||
+						serviceStartsQueue.size() == 0){
 					serviceStartsQueue.enqueue(arrivalQueue.dequeue());
+					line[shortestLine(line)]++;
+				}
 			}
 			time++;
 			
 		}
-		
+    }
+    
+    public static int shortestLine(int[] line){
+    	int index = 0;
+    	
+    	for(int i=1;i<line.length;i++){
+    		if(line[i] < line[i-1] ){
+    			index = i;
+    		}
+    	}
+    	
+    	return index;
+    }
+    
+    public static int numOfWaitingLines(int[] lines){
+    	int count = 0;
+    	
+    	for(int i=0;i<lines.length;i++){
+    		if(lines[i] > 0){
+    			count++;
+    		}
+    	}
+    	
+    	return count;
+    }
+    
+    public ArrayQueue<Customer> getServiceCompletedQueue() {
+		return serviceCompletedQueue;
+	}
 
+	public int getTime() {
+		return time;
 	}
 }
 

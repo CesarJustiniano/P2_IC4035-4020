@@ -9,6 +9,7 @@ import java.io.IOException;
 import customer.Customer;
 import queues.ArrayQueue;
 import queues.SLLQueue;
+import servers.SLMS;
 
 public class Main {
 
@@ -17,6 +18,8 @@ public class Main {
 		SLLQueue<Customer> arrivalQueue = new SLLQueue<Customer>();
 		SLLQueue<Customer> serviceStartsQueue = new SLLQueue<Customer>();
 		ArrayQueue<Customer> serviceCompletedQueue = new ArrayQueue<Customer>();
+		
+		SLMS[] firstPolicy = {null,null,null};
 		
 		String directory = "Lab6";
 		String fileName = "input.txt"; 
@@ -31,7 +34,7 @@ public class Main {
             dataReader = new BufferedReader(new FileReader(inputfile));
             while ((dataline = dataReader.readLine()) != null) {
 
-                String[] data =dataline.split("\t");             
+               String[] data =dataline.split("\t");             
               
                arrTime = Integer.parseInt(data[0]);
                serTime = Integer.parseInt(data[1].substring(data[1].length()-1));
@@ -53,8 +56,19 @@ public class Main {
             }
         }
         
+        for(int i=0;i<firstPolicy.length;i++){
+        	firstPolicy[i] = new SLMS(arrivalQueue, serviceStartsQueue, serviceCompletedQueue);
+        	//second policy
+        	//third policy
+        	//fourth policy
+        }        
         
-        
+        for(int i=0;i<firstPolicy.length;i++){
+        	firstPolicy[i].Service(2*i + 1);
+        	//second policy
+        	//third policy
+        	//fourth policy
+        }        
 	}
 	
 	
@@ -80,7 +94,7 @@ public class Main {
 		return copy;
 	}
 	
-	public float time(ArrayQueue<Customer> serviceCompletedQueue ) {
+	public static float time(ArrayQueue<Customer> serviceCompletedQueue ) {
 		   //Calculates time in system
   		float totalTime = 0;
   		float arrVal = 0;

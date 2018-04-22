@@ -5,23 +5,21 @@ import customer.Customer;
 import queues.SLLQueue;
 import queues.ArrayQueue;
 
-public class SLMS {
-
-		
-		SLLQueue<Customer> arrivalQueue = new SLLQueue<Customer>();
-		SLLQueue<Customer> serviceStartsQueue = new SLLQueue<Customer>();
-		ArrayQueue<Customer> serviceCompletedQueue = new ArrayQueue<Customer>();
-        //time input
-        int time = 0;
+public class SLMS {	
+	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue;
+	private ArrayQueue<Customer> serviceCompletedQueue;
+    //time input
+    private int time;
         
-        public SLMS(SLLQueue<Customer> arrivalQueue, 	SLLQueue<Customer> serviceStartsQueue, 
+    public SLMS(SLLQueue<Customer> arrivalQueue, SLLQueue<Customer> serviceStartsQueue, 
         		ArrayQueue<Customer> serviceCompletedQueue ) {
-    		 this.arrivalQueue = arrivalQueue ;
-    		this.serviceStartsQueue =  serviceStartsQueue;
-    		this. serviceCompletedQueue  =  serviceCompletedQueue ; 
-        }
+    	this.arrivalQueue = arrivalQueue ;
+    	this.serviceStartsQueue =  serviceStartsQueue;
+   		this.serviceCompletedQueue  =  serviceCompletedQueue ; 
+   		time = 0;
+   	}
         
-        public void Service(int size) {
+    public void Service(int size) {
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			
 			if(!serviceStartsQueue.isEmpty()) {
@@ -32,6 +30,9 @@ public class SLMS {
 						job.setDepTime(time);
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
 					}
+					else{
+						serviceStartsQueue.enqueue(serviceStartsQueue.dequeue());
+					}
 			}
 			
 			if(!arrivalQueue.isEmpty())
@@ -40,10 +41,16 @@ public class SLMS {
 				if(job1.getArrTime()>=time && serviceStartsQueue.size() != size)
 					serviceStartsQueue.enqueue(arrivalQueue.dequeue());
 			}
-			time++;
 			
+			time++;	
 		}
-		
+	}
 
+	public ArrayQueue<Customer> getServiceCompletedQueue() {
+		return serviceCompletedQueue;
+	}
+
+	public int getTime() {
+		return time;
 	}
 }
