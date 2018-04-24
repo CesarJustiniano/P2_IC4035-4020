@@ -1,5 +1,5 @@
 
-package servers;
+package policies;
 
 import customer.Customer;
 import queues.SLLQueue;
