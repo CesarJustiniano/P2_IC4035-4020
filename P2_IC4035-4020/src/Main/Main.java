@@ -7,9 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import customer.Customer;
+import policies.SLMS;
 import queues.ArrayQueue;
 import queues.SLLQueue;
-import servers.SLMS;
 
 public class Main {
 
