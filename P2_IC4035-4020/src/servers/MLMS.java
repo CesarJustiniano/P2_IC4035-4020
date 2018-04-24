@@ -40,8 +40,8 @@ public class MLMS {
 					}
 			}
 			
-			if(!arrivalQueue.isEmpty())
-			{
+			if(!arrivalQueue.isEmpty()) {
+				
 				Customer job1 = arrivalQueue.first();
 				if(job1.getArrTime()>=time && serviceStartsQueue.size() < numOfWaitingLines(line) ||
 						serviceStartsQueue.size() == 0){

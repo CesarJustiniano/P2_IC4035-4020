@@ -13,7 +13,7 @@ import servers.SLMS;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)  throws FileNotFoundException{
 		
 		SLLQueue<Customer> arrivalQueue = new SLLQueue<Customer>();
 		SLLQueue<Customer> serviceStartsQueue = new SLLQueue<Customer>();
@@ -21,7 +21,7 @@ public class Main {
 		
 		SLMS[] firstPolicy = {null,null,null};
 		
-		String directory = "Lab6";
+		String directory = "src";
 		String fileName = "input.txt"; 
 		
 		File inputfile = new File(directory, fileName);
@@ -34,7 +34,7 @@ public class Main {
             dataReader = new BufferedReader(new FileReader(inputfile));
             while ((dataline = dataReader.readLine()) != null) {
 
-               String[] data =dataline.split("\t");             
+               String[] data =dataline.split(",");             
               
                arrTime = Integer.parseInt(data[0]);
                serTime = Integer.parseInt(data[1].substring(data[1].length()-1));
@@ -55,6 +55,12 @@ public class Main {
                     e.printStackTrace();}
             }
         }
+        SLLQueue<SLMS> serv = new SLLQueue<SLMS>();
+        SLMS serv1 = new SLMS(arrivalQueue, serviceStartsQueue, serviceCompletedQueue);
+        serv1.Service(3);
+		System.out.print("Averange Time in System is: ");
+		System.out.printf("%.2f", time(serviceCompletedQueue));
+        
         
         for(int i=0;i<firstPolicy.length;i++){
         	firstPolicy[i] = new SLMS(arrivalQueue, serviceStartsQueue, serviceCompletedQueue);
@@ -98,13 +104,13 @@ public class Main {
 		   //Calculates time in system
   		float totalTime = 0;
   		float arrVal = 0;
-  		float depVal = 0;
+  		float serVal = 0;
   		float count = 0;
   		
   		while(!(serviceCompletedQueue .isEmpty())) {
   			arrVal = serviceCompletedQueue.first().getArrTime();
-  			depVal = serviceCompletedQueue.first().getDepTime();
-  			totalTime= (depVal-arrVal) + totalTime;
+  			serVal = serviceCompletedQueue.first().getSerTime();
+  			totalTime= (arrVal - serVal ) + totalTime;
   			count++;
   	
   			serviceCompletedQueue .dequeue();
