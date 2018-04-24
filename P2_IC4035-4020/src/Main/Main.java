@@ -19,8 +19,8 @@ public class Main {
 		SLLQueue<Customer> serviceStartsQueue = new SLLQueue<Customer>();
 		ArrayQueue<Customer> serviceCompletedQueue = new ArrayQueue<Customer>();
 		
-		SLMS[] firstPolicy = {null,null,null};
-		
+		SLMS[] firstPolicy = {null,null,null}; //hard coded 
+				
 		String directory = "Lab6";
 		String fileName = "input.txt"; 
 		
@@ -68,7 +68,7 @@ public class Main {
         	//second policy
         	//third policy
         	//fourth policy
-        }        
+        }
 	}
 	
 	

@@ -22,8 +22,16 @@ public class Server {
 		return lineQueue.first();
 	}
 	
+	public Customer peekLastInLine(){
+		return lineQueue.last();
+	}
+	
 	public Customer nextCustomer(){
 		return lineQueue.dequeue();
+	}
+	
+	public Customer transferCustomer(){
+		return lineQueue.dequeueLast();
 	}
 	
 	public int lineLength(){
