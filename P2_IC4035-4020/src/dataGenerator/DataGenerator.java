@@ -1,4 +1,5 @@
 package dataGenerator;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -13,14 +14,14 @@ public class DataGenerator {
 	// different values to adjust that generated data satisfies some criteria being
 	// pursued. But for this project, I would say that the values given are good 
 	// enough. 
-	private static final int R1 = 20, R2 = 0;  
+	private static final int R1 = 30, R2 = 0;  
 	                   
 	private  int maxRangeValue;  // the largest integer value to be generated
 	private int n;    // Arrival time of customer 
 	private int m;    // Time that takes the customer to serve them
 	private int totalSize;   // sum of the sizes of all datasets of particular data generators
 	private Integer[][] sizes;    // sizes of datasets provided (or generated) by Ci for Ej
-	private Integer[][][] dataSet; // dataSet[i][j] will be the generated data for F_i_j
+	private Integer[][][] customer; // dataSet[i][j] will be the generated data for F_i_j
 	private int sizeFactor; 
 	
 	private Random rnd; 
@@ -49,21 +50,23 @@ public class DataGenerator {
 	 * @return
 	 */
 	public Object[][][] generateData() {
-		dataSet = new Integer[n][m][];
+		IntegerComparator1 c = new IntegerComparator1();
+		customer = new Integer[n][m][];
 		generateSizes(); 
 		for (int i=0; i<n; i++) { 
 			for (int j=0; j<m; j++) {
-				HashSet<Integer> set = new HashSet<>(); 
-				while(set.size() != this.sizes[i][j]) {
-					set.add(this.rnd.nextInt(maxRangeValue));
+				ArrayList<Integer> list = new ArrayList<>(); 
+				while(list.size() != this.sizes[i][j]) {
+					list.add(this.rnd.nextInt(maxRangeValue));
 				}
 				// add a common value to sets in row 0
 				if (i==0) 
-					set.add(maxRangeValue); 
-				dataSet[i][j] = (Integer[]) set.toArray(new Integer[0]); 
+					list.add(maxRangeValue); 
+				list.sort(c);
+				customer[i][j] = (Integer[]) list.toArray(new Integer[0]); 
 			}
 		}	
-		return dataSet; 
+		return customer; 
 	}
 
 	/**
@@ -71,6 +74,7 @@ public class DataGenerator {
 	 */
 	private void generateSizes() {
 		sizes = new Integer[n][m]; 
+		sizeFactor = 5;
 		int s = 0; 
 		for (int i=0; i<n; i++) 
 			for (int j=0; j<m; j++) { 
@@ -122,26 +126,26 @@ public class DataGenerator {
 
 	
 	// THE FOLLOWING METHODS ARE HERE TO USE IN TESTING....
-//	public void printSizes() { 
-//		System.out.println("Sizes:");
-//		for (int i=0; i<n; i++)
-//			printArray(sizes[i]);
-//	}
-//	
-//	public void printSets() { 
-//		System.out.println("Sets are: " ); 
-//		for (int i=0; i<n; i++)
-//			for (int j=0; j<m; j++) { 
-//				System.out.print("Set["+i+"]["+j+"] = "); 
-//				printArray((Integer[]) dataSet[i][j]); 
-//			}
-//	}
-//	
-//	private void printArray(Integer[] numbers) {
-//		for (int i=0; i<numbers.length; i++) 
-//			System.out.print(numbers[i] + "  "); 
-//		System.out.println(); 
-//	}
+	public void printSizes() { 
+		System.out.println("Sizes:");
+		for (int i=0; i<n; i++)
+			printArray(sizes[i]);
+	}
+	
+	public void printSets() { 
+		System.out.println("Sets are: " ); 
+		for (int i=0; i<n; i++)
+			for (int j=0; j<m; j++) { 
+				System.out.print("Set["+i+"]["+j+"] = "); 
+				printArray((Integer[]) customer[i][j]); 
+			}
+	}
+	
+	private void printArray(Integer[] numbers) {
+		for (int i=0; i<numbers.length; i++) 
+			System.out.print(numbers[i] + "  "); 
+		System.out.println(); 
+	}
 
 
 }

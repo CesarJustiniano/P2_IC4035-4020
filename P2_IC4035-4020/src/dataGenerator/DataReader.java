@@ -34,8 +34,7 @@ public class DataReader {
 		for (int i=0; i<n; i++) { 
 			for (int j=0; j<m; j++) {
 				
-//				String fileName = "Data_" + i + ".txt"; 
-				String fileName = "inputtxt"; 
+				String fileName = "Data_" + i + ".txt"; 
 				Scanner inputFile = new Scanner(new File(parentDirectory, fileName)); 
 				ArrayList<Integer> fileContent = new ArrayList<>(); 
 				while (inputFile.hasNext())
