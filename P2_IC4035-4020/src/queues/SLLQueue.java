@@ -24,11 +24,38 @@ public class SLLQueue<E> implements Queue<E> {
 			if (isEmpty()) return null;
 			return first.element; 
 		}
+		public E last(){
+			if (isEmpty()) return null;
+			return last.element;
+		}
 		public E dequeue() {
 			if (isEmpty()) return null;	
 			
 			Node<E> ntr = first;
 			first = first.next;
+			
+			if(size == 1){
+				first = last = null;
+			}
+			
+			size--;
+			E etr = ntr.element;
+			ntr.element = null;
+			ntr = null;
+			
+			return etr;
+		}
+		public E dequeueLast(){
+			if (isEmpty()) return null;	
+			
+			Node<E> current = first;
+			Node<E> ntr = last;
+			
+			while(current.next != last){
+				current = current.next;
+			}
+			
+			last = current;
 			
 			if(size == 1){
 				first = last = null;
@@ -53,6 +80,21 @@ public class SLLQueue<E> implements Queue<E> {
 				last = nuevo;
 			}
 			size++; 
+		}
+		
+		public SLLQueue<E> clone() throws CloneNotSupportedException {			
+			
+			SLLQueue<E> copy = new SLLQueue<E>();
+			Node<E> current = first;
+			E etr;
+			
+			while(current != null){
+				etr = current.element;
+				copy.enqueue(etr);
+				current = current.next;
+			}
+			
+			return copy;
 		}
 		
 		//For testing

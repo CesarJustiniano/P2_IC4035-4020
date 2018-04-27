@@ -57,5 +57,15 @@ public class ArrayQueue<E> implements Queue<E> {
 		first = 0;
 
 	}
+	
+	public ArrayQueue<E> clone(){
+		ArrayQueue<E> copy = new ArrayQueue<E>();
+		
+		for(int i=0;i<size;i++){
+			copy.enqueue(elements[i]);
+		}
+		
+		return copy;
+	}
 }
 

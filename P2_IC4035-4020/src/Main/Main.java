@@ -13,11 +13,11 @@ import queues.SLLQueue;
 
 public class Main {
 
-	public static void main(String[] args)  throws FileNotFoundException{
+	public static void main(String[] args) {
 		
 		SLLQueue<Customer> arrivalQueue = new SLLQueue<Customer>();
 		SLLQueue<Customer> serviceStartsQueue = new SLLQueue<Customer>();
-		ArrayQueue<Customer> serviceCompletedQueue = new ArrayQueue<Customer>();
+		SLLQueue<Customer> serviceCompletedQueue = new SLLQueue<Customer>();
 		
 		SLMS[] firstPolicy = {null,null,null};
 		
@@ -78,30 +78,30 @@ public class Main {
         }        
 	}
 	
+//	WARNING: Identical to someone's else code
+//	public static ArrayQueue<Customer> copyOf (ArrayQueue<Customer> list) {
+//		ArrayQueue<Customer> copy = new ArrayQueue<>();
+//		
+//		int i = 0;
+//		while(!(i==list.size())) {
+//			Customer c = list.dequeue();
+//			
+//			Customer copyC = new Customer();
+//			
+//			copyC.setArrTime(c.getArrTime());
+//			copyC.setDepTime(c.getDepTime());
+//			copyC.setiD(c.getiD());
+//			copyC.setSerTime(c.getSerTime());
+//			
+//			list.enqueue(c);
+//			copy.enqueue(copyC);
+//			i++;
+//		}
+//		
+//		return copy;
+//	}
 	
-	public static ArrayQueue<Customer> copyOf (ArrayQueue<Customer> list) {
-		ArrayQueue<Customer> copy = new ArrayQueue<>();
-		
-		int i = 0;
-		while(!(i==list.size())) {
-			Customer c = list.dequeue();
-			
-			Customer copyC = new Customer();
-			
-			copyC.setArrTime(c.getArrTime());
-			copyC.setDepTime(c.getDepTime());
-			copyC.setiD(c.getiD());
-			copyC.setSerTime(c.getSerTime());
-			
-			list.enqueue(c);
-			copy.enqueue(copyC);
-			i++;
-		}
-		
-		return copy;
-	}
-	
-	public static float time(ArrayQueue<Customer> serviceCompletedQueue ) {
+	public static float time(SLLQueue<Customer> serviceCompletedQueue ) {
 		   //Calculates time in system
   		float totalTime = 0;
   		float arrVal = 0;
