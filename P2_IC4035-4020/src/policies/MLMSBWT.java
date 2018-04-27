@@ -177,4 +177,9 @@ public class MLMSBWT {
 	public long getTime() {
 		return time; //t1
 	}
+	
+	//Use only when all customers received complete service
+	public int getTotalOfCustomer(){
+		return serviceCompletedQueue.size(); //n
+	}
 }

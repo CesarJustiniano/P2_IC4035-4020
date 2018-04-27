@@ -75,4 +75,9 @@ public class SLMS {
 	public long getTime() {
 		return time;
 	}
+	
+    //Use only when all customers received complete service
+	public int getTotalOfCustomer(){
+		return serviceCompletedQueue.size(); //n
+	}
 }
