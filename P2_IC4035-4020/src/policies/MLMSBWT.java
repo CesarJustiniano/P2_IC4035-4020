@@ -158,7 +158,7 @@ public class MLMSBWT {
     		m += tempQueue.dequeue().getM();
     	}
     	
-    	return m; //m
+    	return m / serviceCompletedQueue.size(); //m
     }
 
     //Use only when all customers received service
