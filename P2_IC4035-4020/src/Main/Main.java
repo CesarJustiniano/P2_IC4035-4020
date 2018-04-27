@@ -21,7 +21,7 @@ public class Main {
 		
 		SLMS[] firstPolicy = {null,null,null};
 		
-		String directory = "src";
+		String directory = "inputFiles";
 		String fileName = "input.txt"; 
 		
 		File inputfile = new File(directory, fileName);
@@ -33,7 +33,8 @@ public class Main {
 
             dataReader = new BufferedReader(new FileReader(inputfile));
             while ((dataline = dataReader.readLine()) != null) {
-
+            	
+            	
                String[] data =dataline.split(",");             
               
                arrTime = Integer.parseInt(data[0]);
