@@ -2,37 +2,56 @@ package policies;
 
 
 
+import java.util.ArrayList;
+
 import customer.Customer;
 import queues.SLLQueue;
 import servers.Server;
-import queues.ArrayQueue;
 
 public class MLMS {
-	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue;
-	private ArrayQueue<Customer> serviceCompletedQueue;
+	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
 	private Server[] policy;
 	//time input
-    private int time;
+    private long time;
     
         
     public MLMS(SLLQueue<Customer> arrivalQueue, SLLQueue<Customer> serviceStartsQueue, 
-        		ArrayQueue<Customer> serviceCompletedQueue ) {
+    		SLLQueue<Customer> serviceCompletedQueue ) {
     	this.arrivalQueue = arrivalQueue ;
     	this.serviceStartsQueue =  serviceStartsQueue;
     	this.serviceCompletedQueue  =  serviceCompletedQueue ; 
     	time = 0;
     }
         
-    public void Service(int size) {
-//    	int[] line = new int[size];
-//    	
-//    	for(int i=0;i<line.length;i++){
-//    		line[i] = 0;
-//    	}
-    	
+    public void Service(int size) throws CloneNotSupportedException {
     	policy = new Server[size];
+    	boolean isFirstClient = true;
     	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
+			
+			if(!arrivalQueue.isEmpty() || numOfWaitingLines(policy) > 0)
+			{	
+				assignToLine(policy);
+								
+				Customer[] jobs = new Customer[size];
+				
+				for(int i=0;i<size;i++){
+					jobs[i] = policy[i].peekFirstInLine();
+					
+					//setting time equal to the first person that arrives
+					if(isFirstClient){
+						time = jobs[i].getArrTime();
+						isFirstClient = false;
+					}
+					
+					if(jobs[i].getArrTime()>=time && serviceStartsQueue.size() != numOfWaitingLines(policy) && 
+							isIndicatedServerAvailable(i) && jobs[i] != null){
+						serviceStartsQueue.enqueue(policy[i].nextCustomer());
+					}
+				}
+				
+				updatingEachM(policy);
+			}
 			
 			if(!serviceStartsQueue.isEmpty()) {
 				Customer job = serviceStartsQueue.first();
@@ -47,35 +66,35 @@ public class MLMS {
 					}
 			}
 			
-			if(!arrivalQueue.isEmpty() || numOfWaitingLines(policy) > 0)
-			{	
-				assignToLine(policy);
-								
-				Customer[] jobs = new Customer[size];
-				
-				for(int i=0;i<size;i++){
-					jobs[i] = policy[i].peekFirstInLine();
-					
-					if(jobs[i].getArrTime()>=time && serviceStartsQueue.size() != numOfWaitingLines(policy)){
-						serviceStartsQueue.enqueue(policy[i].nextCustomer());
-					}
-				}
-			}
 			time++;
 		}
     }
     
+    public boolean isIndicatedServerAvailable(int numLine) throws CloneNotSupportedException{
+    	SLLQueue<Customer> tempQueue = serviceStartsQueue.clone();
+    	
+    	while(!tempQueue.isEmpty()){
+    		//checking if the server post of the indicated line is still occupy
+    		if(numLine == tempQueue.dequeue().getNumLine()){
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
     public void assignToLine(Server[] line){
     	if(!arrivalQueue.isEmpty()){
-    		int index = 0;
+    		int index, shortestLine;
+    		index = 0;
+    		shortestLine = line[index].lineLength();
         	
         	for(int i=1;i<line.length;i++){
-        		if(line[i].lineLength() < line[i-1].lineLength()){
+        		if(line[i].lineLength() < shortestLine){
         			index = i;
         		}
         	}
         	
-        	line[index].add(arrivalQueue.dequeue());
+        	line[index].add(arrivalQueue.dequeue(), index);
     	}
     }
     
@@ -91,12 +110,60 @@ public class MLMS {
     	return count;
     }
     
-    public ArrayQueue<Customer> getServiceCompletedQueue() {
-		return serviceCompletedQueue;
-	}
+    public void updatingEachM(Server[] lines) throws CloneNotSupportedException{
+    	SLLQueue<Customer> tempQueue = serviceStartsQueue.clone();
+    	ArrayList<Customer> tempArray = new ArrayList<Customer>();
+    	
+    	while(!tempQueue.isEmpty()){
+    		Customer job = tempQueue.dequeue();
+    		
+    		for(int i=0;i<lines.length;i++){
+    			if(lines[i].lineLength() != 0){ // current line is not empty
+    				for(int j=0;j<lines[i].lineLength();j++){
+    					tempArray.add(lines[i].nextCustomer());
+        				
+        				//checking if the attended client arrived later than a client in line
+        				if(job.getArrTime() > tempArray.get(j).getArrTime()){ 
+        					tempArray.get(j).incrementM();
+        				}
+    				}
+    				
+    				//returning the clients back to their line in their original order
+    				while(!tempArray.isEmpty()){
+    					lines[i].add(tempArray.remove(0), i);
+    				}
+    			}
+    		}
+    	}
+    }
 
-	public int getTime() {
-		return time;
+    //Use only when all customers received complete service
+    public long getAverageOfM() throws CloneNotSupportedException{
+    	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
+    	int m = 0;
+    	
+    	while(!tempQueue.isEmpty()){
+    		m += tempQueue.dequeue().getM();
+    	}
+    	
+    	return m; //m
+    }
+    
+    //Use only when all customers received service
+    public long getAverageWaitingTime() throws CloneNotSupportedException{
+    	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
+    	long sum = 0;
+    	
+    	while(!tempQueue.isEmpty()){
+    		sum += tempQueue.dequeue().getWaitingTime();
+    	}
+    	
+    	return sum / serviceCompletedQueue.size(); //t2
+    }
+
+    //Use only when all customers received service
+	public long getTime() {
+		return time; //t1
 	}
 }
 

@@ -82,6 +82,21 @@ public class SLLQueue<E> implements Queue<E> {
 			size++; 
 		}
 		
+		public SLLQueue<E> clone() throws CloneNotSupportedException {			
+			
+			SLLQueue<E> copy = new SLLQueue<E>();
+			Node<E> current = first;
+			E etr;
+			
+			while(current != null){
+				etr = current.element;
+				copy.enqueue(etr);
+				current = current.next;
+			}
+			
+			return copy;
+		}
+		
 		//For testing
 		public void toPrint(){
 			if(isEmpty()){
