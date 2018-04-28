@@ -39,7 +39,7 @@ public class Main {
               
                arrTime = Integer.parseInt(data[0]);
                serTime = Integer.parseInt(data[1].substring(data[1].length()-1));
-               Customer element = new Customer(0, arrTime, serTime);
+               Customer element = new Customer(arrTime, serTime);
               
               arrivalQueue.enqueue(element);  
               

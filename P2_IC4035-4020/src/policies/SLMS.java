@@ -27,13 +27,13 @@ public class SLMS {
 			
 			if(!arrivalQueue.isEmpty())
 			{
+				//setting time equal to the first person that arrives
+				if(isFirstClient){
+					time = arrivalQueue.first().getArrTime();
+					isFirstClient = false;
+				}
+				
 				while(arrivalQueue.first().getArrTime() <= time){
-					//setting time equal to the first person that arrives
-					if(isFirstClient){
-						time = arrivalQueue.first().getArrTime();
-						isFirstClient = false;
-					}
-					
 					policy.add(arrivalQueue.dequeue(), 0, iD++);
 				}
 				
@@ -43,8 +43,6 @@ public class SLMS {
 					job1.setRecentlyServed(true);
 					serviceStartsQueue.enqueue(arrivalQueue.dequeue());
 				}
-				
-				
 			}
 			
 			if(!serviceStartsQueue.isEmpty()) {
@@ -67,11 +65,12 @@ public class SLMS {
 			
 			time++;	
 		}
+		time--;
 	}
     
     //Use only when all customers received complete service
     public float getAverageM(){
-    	return 0; //the result will always be 0 because it will always be one line
+    	return 0; //the result will always be 0 because there will always be one line
     }
     
     //Use only when all customers received complete service

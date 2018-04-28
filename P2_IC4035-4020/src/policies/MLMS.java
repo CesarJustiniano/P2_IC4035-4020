@@ -32,6 +32,12 @@ public class MLMS {
 			
 			if(!arrivalQueue.isEmpty() || numOfWaitingLines(policy) > 0)
 			{	
+				//setting time equal to the first person that arrives
+				if(isFirstClient){
+					time = arrivalQueue.first().getArrTime();
+					isFirstClient = false;
+				}
+				
 				while(arrivalQueue.first().getArrTime() <= time){
 					assignToLine(policy, iD++);
 				}
@@ -40,12 +46,6 @@ public class MLMS {
 				
 				for(int i=0;i<size;i++){
 					jobs[i] = policy[i].peekFirstInLine();
-					
-					//setting time equal to the first person that arrives
-					if(isFirstClient){
-						time = jobs[i].getArrTime();
-						isFirstClient = false;
-					}
 					
 					if(jobs[i].getArrTime()>=time && serviceStartsQueue.size() != numOfWaitingLines(policy) && 
 							isIndicatedServerAvailable(i) && jobs[i] != null){
@@ -78,6 +78,7 @@ public class MLMS {
 			
 			time++;
 		}
+		time--;
     }
     
     private boolean isIndicatedServerAvailable(int numLine) throws CloneNotSupportedException{
