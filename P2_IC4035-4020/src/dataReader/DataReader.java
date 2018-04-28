@@ -1,4 +1,4 @@
-package dataGenerator;
+package dataReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class DataReader {
 
 	public DataReader() throws FileNotFoundException {
 		parentDirectory = "inputFiles"; 
-		Scanner parameters = new Scanner(new File(parentDirectory, "input.txt")); 
+		Scanner parameters = new Scanner(new File(parentDirectory, "parameters.txt")); 
 		// the values of n and m shall be read from file: "inputFiles/input.txt". 
 		this.n = parameters.nextInt(); 
 		this.m = parameters.nextInt();
@@ -34,7 +34,7 @@ public class DataReader {
 		for (int i=0; i<n; i++) { 
 			for (int j=0; j<m; j++) {
 				
-				String fileName = "Data_" + i + ".txt"; 
+				String fileName = "data_" + i + ".txt"; 
 				Scanner inputFile = new Scanner(new File(parentDirectory, fileName)); 
 				ArrayList<Integer> fileContent = new ArrayList<>(); 
 				while (inputFile.hasNext())
@@ -47,20 +47,20 @@ public class DataReader {
 	}
 
 	
-//	public void printSets() { 
-//		System.out.println("Sets Fij are: " ); 
-//		for (int i=0; i<n; i++)
-//			for (int j=0; j<m; j++) { 
-//				System.out.print("Set["+i+"]["+j+"] = "); 
-//				printArray((Integer[]) customer[i][j]); 
-//			}
-//	}
-//	
-//	private void printArray(Integer[] numbers) {
-//		for (int i=0; i<numbers.length; i++) 
-//			System.out.print(numbers[i] + "  "); 
-//		System.out.println(); 
-//	}
+	public void printFiles() { 
+		System.out.println("Files Di are: " ); 
+		for (int i=0; i<n; i++)
+			for (int j=0; j<m; j++) { 
+				System.out.print("File["+i+"]= "); 
+				printArray((Integer[]) customer[i][j]); 
+			}
+	}
+	
+	private void printArray(Integer[] numbers) {
+		for (int i=0; i<numbers.length; i++) 
+			System.out.print(numbers[i] + "  "); 
+		System.out.println(); 
+	}
 
 
 }
