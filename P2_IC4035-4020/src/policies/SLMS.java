@@ -3,9 +3,11 @@ package policies;
 
 import customer.Customer;
 import queues.SLLQueue;
+import servers.Server;
 
 public class SLMS {	
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
+	private Server policy;
     //time input
     private long time;
         
@@ -19,22 +21,30 @@ public class SLMS {
         
     public void Service(int size) {
     	boolean isFirstClient = true;
+    	int iD = 0;
+    	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			
 			if(!arrivalQueue.isEmpty())
 			{
-				Customer job1 = arrivalQueue.first();
-				
-				//setting time equal to the first person that arrives
-				if(isFirstClient){
-					time = job1.getArrTime();
-					isFirstClient = false;
+				while(arrivalQueue.first().getArrTime() <= time){
+					//setting time equal to the first person that arrives
+					if(isFirstClient){
+						time = arrivalQueue.first().getArrTime();
+						isFirstClient = false;
+					}
+					
+					policy.add(arrivalQueue.dequeue(), 0, iD++);
 				}
+				
+				Customer job1 = policy.peekFirstInLine();
 				
 				if(job1.getArrTime()>=time && serviceStartsQueue.size() != size){
+					job1.setRecentlyServed(true);
 					serviceStartsQueue.enqueue(arrivalQueue.dequeue());
-					
 				}
+				
+				
 			}
 			
 			if(!serviceStartsQueue.isEmpty()) {
@@ -42,6 +52,7 @@ public class SLMS {
 				for(int i=0;i<serviceStartsQueue.size();i++){
 					Customer job = serviceStartsQueue.first();
 					job.setSerTime(job.getSerTime() - 1);
+					job.setRecentlyServed(false);
 					
 					if(job.getSerTime() == 0) {
 						job.setDepTime(time);
@@ -52,7 +63,6 @@ public class SLMS {
 						serviceStartsQueue.enqueue(serviceStartsQueue.dequeue());
 					}
 				}
-				
 			}
 			
 			time++;	
@@ -60,14 +70,14 @@ public class SLMS {
 	}
     
     //Use only when all customers received complete service
-    public long getAverageM(){
+    public float getAverageM(){
     	return 0; //the result will always be 0 because it will always be one line
     }
     
     //Use only when all customers received complete service
-    public long getAverageWaitingTime() throws CloneNotSupportedException{
+    public float getAverageWaitingTime() throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
-    	long sum = 0;
+    	float sum = 0;
     	
     	while(!tempQueue.isEmpty()){
     		sum += tempQueue.dequeue().getWaitingTime();
