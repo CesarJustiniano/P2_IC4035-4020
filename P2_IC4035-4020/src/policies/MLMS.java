@@ -54,23 +54,27 @@ public class MLMS {
 			}
 			
 			if(!serviceStartsQueue.isEmpty()) {
-				Customer job = serviceStartsQueue.first();
-				job.setSerTime(job.getSerTime() - 1);
+				//this for loop is to make every service post serve once per time
+				for(int i=0;i<serviceStartsQueue.size();i++){
+					Customer job = serviceStartsQueue.first();
+					job.setSerTime(job.getSerTime() - 1);
 				
 					if(job.getSerTime() == 0) {
 						job.setDepTime(time);
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
+						i--;
 					}
 					else{
 						serviceStartsQueue.enqueue(serviceStartsQueue.dequeue());
 					}
+				}
 			}
 			
 			time++;
 		}
     }
     
-    public boolean isIndicatedServerAvailable(int numLine) throws CloneNotSupportedException{
+    private boolean isIndicatedServerAvailable(int numLine) throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceStartsQueue.clone();
     	
     	while(!tempQueue.isEmpty()){
@@ -82,7 +86,7 @@ public class MLMS {
     	return true;
     }
     
-    public void assignToLine(Server[] line){
+    private void assignToLine(Server[] line){
     	if(!arrivalQueue.isEmpty()){
     		int index, shortestLine;
     		index = 0;
@@ -98,7 +102,7 @@ public class MLMS {
     	}
     }
     
-    public int numOfWaitingLines(Server[] lines){
+    private int numOfWaitingLines(Server[] lines){
     	int count = 0;
     	
     	for(int i=0;i<lines.length;i++){
@@ -110,7 +114,7 @@ public class MLMS {
     	return count;
     }
     
-    public void updatingEachM(Server[] lines) throws CloneNotSupportedException{
+    private void updatingEachM(Server[] lines) throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceStartsQueue.clone();
     	ArrayList<Customer> tempArray = new ArrayList<Customer>();
     	
@@ -138,7 +142,7 @@ public class MLMS {
     }
 
     //Use only when all customers received complete service
-    public long getAverageOfM() throws CloneNotSupportedException{
+    public long getAverageM() throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
     	int m = 0;
     	

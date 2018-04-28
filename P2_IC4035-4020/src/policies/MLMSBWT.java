@@ -53,23 +53,27 @@ public class MLMSBWT {
 			}
 			
 			if(!serviceStartsQueue.isEmpty()) {
-				Customer job = serviceStartsQueue.first();
-				job.setSerTime(job.getSerTime() - 1);
+				//this for loop is to make every service post serve once per time
+				for(int i=0;i<serviceStartsQueue.size();i++){
+					Customer job = serviceStartsQueue.first();
+					job.setSerTime(job.getSerTime() - 1);
 				
 					if(job.getSerTime() == 0) {
 						job.setDepTime(time);
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
+						i--;
 					}
 					else{
 						serviceStartsQueue.enqueue(serviceStartsQueue.dequeue());
 					}
+				}
 			}
 			
 			time++;
 		}
     }
     
-    public boolean isIndicatedServerAvailable(int numLine) throws CloneNotSupportedException{
+    private boolean isIndicatedServerAvailable(int numLine) throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceStartsQueue.clone();
     	
     	while(!tempQueue.isEmpty()){
@@ -81,7 +85,7 @@ public class MLMSBWT {
     	return true;
     }
     
-    public void assignToLinePerWait(Server[] line) throws CloneNotSupportedException{
+    private void assignToLinePerWait(Server[] line) throws CloneNotSupportedException{
     	if(!arrivalQueue.isEmpty()){
     		int index = 0; 
     		long fastestLine = line[index].getTotalWaitTime() + serverTimeRemaining(index);
@@ -96,7 +100,7 @@ public class MLMSBWT {
     	}
     }
     
-    public long serverTimeRemaining(int numServer) throws CloneNotSupportedException{
+    private long serverTimeRemaining(int numServer) throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceStartsQueue.clone();
     	
     	while(!tempQueue.isEmpty()){
@@ -110,7 +114,7 @@ public class MLMSBWT {
     	return 0;
     }
     
-    public int numOfWaitingLines(Server[] lines){
+    private int numOfWaitingLines(Server[] lines){
     	int count = 0;
     	
     	for(int i=0;i<lines.length;i++){
@@ -122,7 +126,7 @@ public class MLMSBWT {
     	return count;
     }
     
-    public void updatingEachM(Server[] lines) throws CloneNotSupportedException{
+    private void updatingEachM(Server[] lines) throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceStartsQueue.clone();
     	ArrayList<Customer> tempArray = new ArrayList<Customer>();
     	
@@ -179,7 +183,7 @@ public class MLMSBWT {
 	}
 	
 	//Use only when all customers received complete service
-	public int getTotalOfCustomer(){
+	public int getTotalNumOfCustomer(){
 		return serviceCompletedQueue.size(); //n
 	}
 }
