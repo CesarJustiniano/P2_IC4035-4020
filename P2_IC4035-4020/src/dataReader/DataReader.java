@@ -4,22 +4,30 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import customer.Customer;
+import queues.SLLQueue;
+
 
 public class DataReader {
 
-	private int n;    // Time of arrival of the customer
-	private int m;   // Time that the customer needs for the service
+	private String file;    
+	private long n; // Time of arrival of the customer
+	private long m;   // Time that the customer needs for the service
+	private int id;
 	private Integer[][][] customer; 
 	private String parentDirectory; 
+	SLLQueue<Customer> arrivalQueue;
+
 	
 
 	public DataReader() throws FileNotFoundException {
 		parentDirectory = "inputFiles"; 
-		Scanner parameters = new Scanner(new File(parentDirectory, "parameters.txt")); 
+		Scanner dataFiles = new Scanner(new File(parentDirectory, "dataFiles.txt")); 
 		// the values of n and m shall be read from file: "inputFiles/input.txt". 
-		this.n = parameters.nextInt(); 
-		this.m = parameters.nextInt();
-		parameters.close();
+		while(dataFiles.hasNext()) {
+		this.file = dataFiles.nextLine();	
+		}
+		dataFiles.close();
 	}
 	
 	/**
@@ -27,23 +35,31 @@ public class DataReader {
 	 * @return
 	 * @throws FileNotFoundException 
 	 */
-	public Object[][][] readDataFiles() throws FileNotFoundException {
-		customer = new Integer[n][m][];
-		parentDirectory = "inputFiles";
+	public SLLQueue<Customer> readDataFiles() throws FileNotFoundException {
+		SLLQueue<Customer> arrivalQueue = new SLLQueue<>();
 		
-		for (int i=0; i<n; i++) { 
-			for (int j=0; j<m; j++) {
+		parentDirectory = "inputFiles";
+		Scanner inputFile = new Scanner(new File(parentDirectory, "dataFiles.txt")); 
+		
+		while (inputFile.hasNext()) {
+		
+			if(inputFile.next() == null) throw new FileNotFoundException ("File not found");
 				
-				String fileName = "data_" + i + ".txt"; 
-				Scanner inputFile = new Scanner(new File(parentDirectory, fileName)); 
-				ArrayList<Integer> fileContent = new ArrayList<>(); 
-				while (inputFile.hasNext())
-					fileContent.add(inputFile.nextInt());
-				inputFile.close();
-				customer[i][j] = (Integer[]) fileContent.toArray(new Integer[0]);  
-			}
-		}	
-		return customer; 
+				String fileName = inputFile.next(); 
+				Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
+			
+				while (inputFile1.hasNext()) {
+					n = inputFile1.nextLong();
+					inputFile1.useDelimiter("\t");
+					m = inputFile1.nextLong();
+					Customer c = new Customer(id, n, m);
+					arrivalQueue.enqueue(c);
+				}
+				inputFile1.close();
+				
+		}
+		inputFile.close();	
+		return arrivalQueue; 
 	}
 
 	
