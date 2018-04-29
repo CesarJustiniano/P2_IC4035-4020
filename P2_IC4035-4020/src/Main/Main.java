@@ -60,7 +60,6 @@ public class Main {
 		SLLQueue<Customer> arrivalQueue11 = copyList(arrivalQueue);
 		SLLQueue<Customer> serviceCompletedQueue11 = new SLLQueue<Customer>();
 		
-			
 		
 	
         SLMS slms1 = new SLMS(arrivalQueue, serviceStartsQueue, serviceCompletedQueue);

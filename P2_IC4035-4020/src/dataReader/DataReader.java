@@ -51,6 +51,9 @@ public class DataReader {
 				while (inputFile1.hasNext()) {
 					n = inputFile1.nextLong();
 					inputFile1.useDelimiter("\t");
+//					if(inputFile1.hasNext("")){
+//						inputFile1.nextLine();
+//					}
 					m = inputFile1.nextLong();
 					Customer c = new Customer(id, n, m);
 					arrivalQueue.enqueue(c);
