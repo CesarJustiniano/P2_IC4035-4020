@@ -60,8 +60,8 @@ public class Main {
 //		SLLQueue<Customer> arrivalQueue11 = copyList(arrivalQueue);
 //		SLLQueue<Customer> serviceCompletedQueue11 = new SLLQueue<Customer>();
 		
-		if(arrivalQueue != null){
-			SLMS slms1 = new SLMS(arrivalQueue.clone());
+		//if(arrivalQueue != null){
+			SLMS slms1 = new SLMS(arrivalQueue);
 	        slms1.Service(1);
 	        SLMS slms3 = new SLMS(arrivalQueue.clone());
 	        slms3.Service(3);
@@ -112,13 +112,12 @@ public class Main {
 					out.println("MLMSBLL 3:\t" + mlmsbll3.getTime() + "\t" + mlmsbll3.getAverageWaitingTime() +  "\t" + mlmsbll3.getAverageM());
 					out.println("MLMSBLL 5:\t" + mlmsbll5.getTime() + "\t" + mlmsbll5.getAverageWaitingTime() +  "\t" + mlmsbll5.getAverageM());
 					
-					
 					out.println("MLMSBWT 1:\t" + mlmsbwt1.getTime() + "\t" + mlmsbwt1.getAverageWaitingTime() +  "\t" + mlmsbwt1.getAverageOfM());
 					out.println("MLMSBWT 3:\t" + mlmsbwt3.getTime() + "\t" + mlmsbwt3.getAverageWaitingTime() +  "\t" + mlmsbwt3.getAverageOfM());
 					out.println("MLMSBWT 5:\t" + mlmsbwt5.getTime() + "\t" + mlmsbwt5.getAverageWaitingTime() +  "\t" + mlmsbwt5.getAverageOfM());
 					out.close();
 			}
-		}    
+		//}    
 	}
 
 	public static SLLQueue<Customer> copyList (SLLQueue<Customer> custList) {

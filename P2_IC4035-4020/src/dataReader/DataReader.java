@@ -43,25 +43,37 @@ public class DataReader {
 		
 		while (inputFile.hasNext()) {
 		
-			if(inputFile.next() == null) throw new FileNotFoundException ("File not found");
+			if(inputFile.next() == null) {
+				throw new FileNotFoundException ("File not found");
+			}			
 				
 			String fileName = inputFile.next(); 
 			Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
 			
-			while (inputFile1.hasNext()) {
-				n = inputFile1.nextLong();
-				inputFile1.useDelimiter("\t");
-				if(!inputFile1.hasNextLong()){ 
-					inputFile1.close();
-					return null;
+			if(!inputFile1.hasNext("")){
+				while (inputFile1.hasNext()) {
+					n = inputFile1.nextLong();
+					inputFile1.useDelimiter("\t");
+					if(!inputFile1.hasNextLong()){ 
+						inputFile1.close();
+						System.out.println("Incomplete File");
+						return null;
+					}
+					m = inputFile1.nextLong();
+					Customer c = new Customer(n, m);
+					arrivalQueue.enqueue(c);
 				}
-				m = inputFile1.nextLong();
-				Customer c = new Customer(n, m);
-				arrivalQueue.enqueue(c);
 			}
+			else{
+				System.out.println("File is empty");
+				inputFile1.close();
+				return null;
+			}
+			
 			inputFile1.close();	
 		}
 		inputFile.close();	
+		System.out.println("Completed File");
 		return arrivalQueue; 
 	}
 

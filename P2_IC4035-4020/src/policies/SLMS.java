@@ -13,8 +13,8 @@ public class SLMS {
         
     public SLMS(SLLQueue<Customer> arrivalQueue) {
     	this.arrivalQueue = arrivalQueue ;
-    	this.serviceStartsQueue =  new SLLQueue<Customer>();
-   		this.serviceCompletedQueue  =  new SLLQueue<Customer>(); 
+    	serviceStartsQueue =  new SLLQueue<Customer>();
+   		serviceCompletedQueue  =  new SLLQueue<Customer>(); 
    		time = 0;
    	}
         
