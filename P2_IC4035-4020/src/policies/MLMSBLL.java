@@ -14,11 +14,10 @@ public class MLMSBLL {
     private long time;
     
         
-    public MLMSBLL(SLLQueue<Customer> arrivalQueue, SLLQueue<Customer> serviceStartsQueue, 
-    		SLLQueue<Customer> serviceCompletedQueue ) {
+    public MLMSBLL(SLLQueue<Customer> arrivalQueue) {
     	this.arrivalQueue = arrivalQueue ;
-    	this.serviceStartsQueue =  serviceStartsQueue;
-    	this.serviceCompletedQueue  =  serviceCompletedQueue ; 
+    	this.serviceStartsQueue =  new SLLQueue<Customer>();
+    	this.serviceCompletedQueue  =  new SLLQueue<Customer>() ; 
     	time = 0;
     }
         

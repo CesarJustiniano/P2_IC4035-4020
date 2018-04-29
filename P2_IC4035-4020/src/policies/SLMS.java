@@ -11,11 +11,10 @@ public class SLMS {
     //time input
     private long time;
         
-    public SLMS(SLLQueue<Customer> arrivalQueue, SLLQueue<Customer> serviceStartsQueue, 
-    		SLLQueue<Customer> serviceCompletedQueue ) {
+    public SLMS(SLLQueue<Customer> arrivalQueue) {
     	this.arrivalQueue = arrivalQueue ;
-    	this.serviceStartsQueue =  serviceStartsQueue;
-   		this.serviceCompletedQueue  =  serviceCompletedQueue ; 
+    	this.serviceStartsQueue =  new SLLQueue<Customer>();
+   		this.serviceCompletedQueue  =  new SLLQueue<Customer>(); 
    		time = 0;
    	}
         

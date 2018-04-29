@@ -45,21 +45,21 @@ public class DataReader {
 		
 			if(inputFile.next() == null) throw new FileNotFoundException ("File not found");
 				
-				String fileName = inputFile.next(); 
-				Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
+			String fileName = inputFile.next(); 
+			Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
 			
-				while (inputFile1.hasNext()) {
-					n = inputFile1.nextLong();
-					inputFile1.useDelimiter("\t");
-//					if(inputFile1.hasNext("")){
-//						inputFile1.nextLine();
-//					}
-					m = inputFile1.nextLong();
-					Customer c = new Customer(n, m);
-					arrivalQueue.enqueue(c);
+			while (inputFile1.hasNext()) {
+				n = inputFile1.nextLong();
+				inputFile1.useDelimiter("\t");
+				if(!inputFile1.hasNextLong()){ 
+					inputFile1.close();
+					return null;
 				}
-				inputFile1.close();
-				
+				m = inputFile1.nextLong();
+				Customer c = new Customer(n, m);
+				arrivalQueue.enqueue(c);
+			}
+			inputFile1.close();	
 		}
 		inputFile.close();	
 		return arrivalQueue; 
