@@ -3,11 +3,11 @@ package customer;
 public class Customer {
 	private int iD, line, m;
 	private boolean isRecentlyServed;  
-	private long arrivalTime; //The first int of data
-	private long serviceTime; //The second int of data
+	private int arrivalTime; //The first int of data
+	private int serviceTime; //The second int of data
 	private long departureTime; 
 	
-	public Customer(long arrivalTime, long serviceTime){
+	public Customer(int arrivalTime, int serviceTime){
 		this.iD = 0;
 		this.arrivalTime = arrivalTime;
 		this.serviceTime = serviceTime;
@@ -29,11 +29,11 @@ public class Customer {
 		return m;
 	}
 	
-	public long getArrTime() {
+	public int getArrTime() {
 		return arrivalTime;
 	}
 
-	public long getSerTime() {
+	public int getSerTime() {
 		return serviceTime;
 	}
 	public long getDepTime() {
@@ -59,11 +59,11 @@ public class Customer {
 		m++; //this variable will function as a counter
 	}
 
-	public void setArrTime(long arrivalTime) {
+	public void setArrTime(int arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
 
-	public void setSerTime(long serviceTime) {
+	public void setSerTime(int serviceTime) {
 		this.serviceTime = serviceTime;
 	}
 

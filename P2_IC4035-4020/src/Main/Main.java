@@ -63,6 +63,7 @@ public class Main {
 		//if(arrivalQueue != null){
 			SLMS slms1 = new SLMS(arrivalQueue);
 	        slms1.Service(1);
+			System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
 	        SLMS slms3 = new SLMS(arrivalQueue.clone());
 	        slms3.Service(3);
 	        SLMS slms5 = new SLMS(arrivalQueue.clone());

@@ -11,22 +11,28 @@ import queues.SLLQueue;
 public class DataReader {
 
 	private String file;    
-	private long n; // Time of arrival of the customer
-	private long m;   // Time that the customer needs for the service
+	private int n; // Time of arrival of the customer
+	private int m;   // Time that the customer needs for the service
 	private int id;
 	private Integer[][][] customer; 
 	private String parentDirectory; 
 	SLLQueue<Customer> arrivalQueue;
 
+	public static void main(String[] args)  throws FileNotFoundException{
+		
+		DataReader dt = new DataReader();
+		SLLQueue<Customer> list = dt.readDataFiles();
+		list.toPrint();
+	}
 	
 
 	public DataReader() throws FileNotFoundException {
 		parentDirectory = "inputFiles"; 
 		Scanner dataFiles = new Scanner(new File(parentDirectory, "dataFiles.txt")); 
 		// the values of n and m shall be read from file: "inputFiles/input.txt". 
-		while(dataFiles.hasNext()) {
-		this.file = dataFiles.nextLine();	
-		}
+//		while(dataFiles.hasNext()) {
+//		this.file = dataFiles.nextLine();	
+//		}
 		dataFiles.close();
 	}
 	
@@ -39,6 +45,12 @@ public class DataReader {
 		SLLQueue<Customer> arrivalQueue = new SLLQueue<>();
 		
 		parentDirectory = "inputFiles";
+//		File dir = new File("inputFiles/dataFiles.txt");
+//		for(File file: dir.listFiles()) {
+//			Scanner s = new Scanner(file);
+//			System.out.println(s);
+//			s.close();
+//		}
 		Scanner inputFile = new Scanner(new File(parentDirectory, "dataFiles.txt")); 
 		
 		while (inputFile.hasNext()) {
@@ -49,29 +61,35 @@ public class DataReader {
 				
 			String fileName = inputFile.next(); 
 			Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
+			System.out.println(fileName);
 			
-			if(!inputFile1.hasNext("")){
+		
 				while (inputFile1.hasNext()) {
-					n = inputFile1.nextLong();
-					inputFile1.useDelimiter("\t");
-					if(!inputFile1.hasNextLong()){ 
-						inputFile1.close();
-						System.out.println("Incomplete File");
-						return null;
-					}
-					m = inputFile1.nextLong();
+					String input = inputFile1.nextLine();
+					String[] numbers = input.split("\t");
+					   n = Integer.parseInt(numbers[0]);
+		               m = Integer.parseInt(numbers[1].substring(numbers[1].length()-1));
+		               
+		               System.out.println("n " + n);
+		               System.out.println("m " + m);
+//					if(inputFile1.hasNextInt()) {
+//					n = inputFile1.nextInt();
+//					System.out.println("n " + n);}
+////					else 
+////							inputFile.next();
+//					
+//					inputFile1.useDelimiter("\t");
+//					if(inputFile1.hasNextInt())
+//					m = inputFile1.nextInt();
+//					System.out.println(m);
+					
 					Customer c = new Customer(n, m);
 					arrivalQueue.enqueue(c);
 				}
+				inputFile1.close();	
 			}
-			else{
-				System.out.println("File is empty");
-				inputFile1.close();
-				return null;
-			}
-			
-			inputFile1.close();	
-		}
+		
+		
 		inputFile.close();	
 		System.out.println("Completed File");
 		return arrivalQueue; 
