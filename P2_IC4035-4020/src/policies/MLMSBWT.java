@@ -25,26 +25,30 @@ public class MLMSBWT {
     public void Service(int size) throws CloneNotSupportedException {
     	policy = new Server[size];
     	boolean isFirstClient = true;
+    	int iD = 0;
     	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			
 			if(!arrivalQueue.isEmpty() || numOfWaitingLines(policy) > 0)
 			{	
-				assignToLinePerWait(policy);
+				//setting time equal to the first person that arrives
+				if(isFirstClient){
+					time = arrivalQueue.first().getArrTime();
+					isFirstClient = false;
+				}
+				
+				while(arrivalQueue.first().getArrTime() <= time){
+					assignToLinePerWait(policy, iD++);
+				}
 								
 				Customer[] jobs = new Customer[size];
 				
 				for(int i=0;i<size;i++){
 					jobs[i] = policy[i].peekFirstInLine();
 					
-					//setting time equal to the first person that arrives
-					if(isFirstClient){
-						time = jobs[i].getArrTime();
-						isFirstClient = false;
-					}
-					
 					if(jobs[i].getArrTime()>=time && serviceStartsQueue.size() != numOfWaitingLines(policy) && 
 							isIndicatedServerAvailable(i) && jobs[i] != null){
+						jobs[i].setRecentlyServed(true);
 						serviceStartsQueue.enqueue(policy[i].nextCustomer());
 					}
 				}
@@ -57,6 +61,7 @@ public class MLMSBWT {
 				for(int i=0;i<serviceStartsQueue.size();i++){
 					Customer job = serviceStartsQueue.first();
 					job.setSerTime(job.getSerTime() - 1);
+					job.setRecentlyServed(false);
 				
 					if(job.getSerTime() == 0) {
 						job.setDepTime(time);
@@ -71,6 +76,7 @@ public class MLMSBWT {
 			
 			time++;
 		}
+		time--;
     }
     
     private boolean isIndicatedServerAvailable(int numLine) throws CloneNotSupportedException{
@@ -85,7 +91,7 @@ public class MLMSBWT {
     	return true;
     }
     
-    private void assignToLinePerWait(Server[] line) throws CloneNotSupportedException{
+    private void assignToLinePerWait(Server[] line, int iD) throws CloneNotSupportedException{
     	if(!arrivalQueue.isEmpty()){
     		int index = 0; 
     		long fastestLine = line[index].getTotalWaitTime() + serverTimeRemaining(index);
@@ -96,7 +102,7 @@ public class MLMSBWT {
                	}
             }
         	
-        	line[index].add(arrivalQueue.dequeue(), index);
+        	line[index].add(arrivalQueue.dequeue(), index, iD);
     	}
     }
     
@@ -139,14 +145,14 @@ public class MLMSBWT {
     					tempArray.add(lines[i].nextCustomer());
         				
         				//checking if the attended client arrived later than a client in line
-        				if(job.getArrTime() > tempArray.get(j).getArrTime()){ 
+        				if(job.getiD() > tempArray.get(j).getiD() && job.isRecentlyServed()){ 
         					tempArray.get(j).incrementM();
         				}
     				}
     				
     				//returning the clients back to their line in their original order
     				while(!tempArray.isEmpty()){
-    					lines[i].add(tempArray.remove(0), i);
+    					lines[i].addTransfer(tempArray.remove(0), i);
     				}
     			}
     		}
@@ -154,9 +160,9 @@ public class MLMSBWT {
     }
     
     //Use only when all customers received complete service
-    public long getAverageOfM() throws CloneNotSupportedException{
+    public float getAverageOfM() throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
-    	int m = 0;
+    	float m = 0;
     	
     	while(!tempQueue.isEmpty()){
     		m += tempQueue.dequeue().getM();
@@ -166,9 +172,9 @@ public class MLMSBWT {
     }
 
     //Use only when all customers received service
-    public long getAverageWaitingTime() throws CloneNotSupportedException{
+    public float getAverageWaitingTime() throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
-    	long sum = 0;
+    	float sum = 0;
     	
     	while(!tempQueue.isEmpty()){
     		sum += tempQueue.dequeue().getWaitingTime();

@@ -25,26 +25,28 @@ public class MLMSBLL {
     public void Service(int size) throws CloneNotSupportedException {
     	policy = new Server[size];
     	boolean isFirstClient = true;
+    	int iD = 0;
     	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			
 			if(!arrivalQueue.isEmpty() || numOfWaitingLines(policy) > 0)
 			{	
-				assignToLine(policy);
+				//setting time equal to the first person that arrives
+				if(isFirstClient){
+					time = arrivalQueue.first().getArrTime();
+					isFirstClient = false;
+				}
+				
+				assignToLine(policy, iD++);
 								
 				Customer[] jobs = new Customer[size];
 				
 				for(int i=0;i<size;i++){ 
 					jobs[i] = policy[i].peekFirstInLine();
 					
-					//setting time equal to the first person that arrives
-					if(isFirstClient){
-						time = jobs[i].getArrTime();
-						isFirstClient = false;
-					}
-					
 					if(jobs[i].getArrTime()>=time && serviceStartsQueue.size() != numOfWaitingLines(policy) && 
 							isIndicatedServerAvailable(i) && jobs[i] != null){
+						jobs[i].setRecentlyServed(true);
 						serviceStartsQueue.enqueue(policy[i].nextCustomer());
 					}
 				}
@@ -58,6 +60,7 @@ public class MLMSBLL {
 				for(int i=0;i<serviceStartsQueue.size();i++){
 					Customer job = serviceStartsQueue.first();
 					job.setSerTime(job.getSerTime() - 1);
+					job.setRecentlyServed(false);
 				
 					if(job.getSerTime() == 0) {
 						job.setDepTime(time);
@@ -72,6 +75,7 @@ public class MLMSBLL {
 			
 			time++;
 		}
+		time--;
     }
     
     private boolean isIndicatedServerAvailable(int numLine) throws CloneNotSupportedException{
@@ -86,7 +90,7 @@ public class MLMSBLL {
     	return true;
     }
     
-    private void assignToLine(Server[] line){
+    private void assignToLine(Server[] line, int iD){
     	if(!arrivalQueue.isEmpty()){
     		int index, shortestLine;
     		index = 0;
@@ -98,7 +102,7 @@ public class MLMSBLL {
         		}
         	}
         	
-        	line[index].add(arrivalQueue.dequeue(), index);
+        	line[index].add(arrivalQueue.dequeue(), index, iD);
     	}
     }
     
@@ -127,14 +131,14 @@ public class MLMSBLL {
     					tempArray.add(lines[i].nextCustomer());
         				
         				//checking if the attended client arrived later than a client in line
-        				if(job.getArrTime() > tempArray.get(j).getArrTime()){ 
+        				if(job.getiD() > tempArray.get(j).getiD() && job.isRecentlyServed()){ 
         					tempArray.get(j).incrementM();
         				}
     				}
     				
     				//returning the clients back to their line in their original order
     				while(!tempArray.isEmpty()){
-    					lines[i].add(tempArray.remove(0), i);
+    					lines[i].addTransfer(tempArray.remove(0), i);
     				}
     			}
     		}
@@ -205,7 +209,7 @@ public class MLMSBLL {
         			}
         		}
         		
-        		lines[shortIndex].add(lines[earlyIndex].transferCustomer(), shortIndex);
+        		lines[shortIndex].addTransfer(lines[earlyIndex].transferCustomer(), shortIndex);
         	}
         	
     	}while(longestLine - shortestLine > 1);

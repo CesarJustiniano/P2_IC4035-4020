@@ -2,23 +2,23 @@ package customer;
 
 public class Customer {
 	private int iD, line, m;
-	private boolean isServed;  
+	private boolean isRecentlyServed;  
 	private long arrivalTime; //The first int of data
 	private long serviceTime; //The second int of data
 	private long departureTime; 
 	
-	public Customer(int iD, long arrivalTime, long serviceTime){
-		this.iD = iD;
+	public Customer(long arrivalTime, long serviceTime){
+		this.iD = 0;
 		this.arrivalTime = arrivalTime;
 		this.serviceTime = serviceTime;
 		this.line = 0;
 		this.m = 0;
-		isServed = false;
+		isRecentlyServed = false;
 	}
 
 	//getters
-	public boolean isServed() {
-		return isServed;
+	public boolean isRecentlyServed() {
+		return isRecentlyServed;
 	}
 	
 	public int getiD() {
@@ -75,8 +75,8 @@ public class Customer {
 		this.iD = iD;
 	}
 	
-	public void setServed(boolean isServed) {
-		this.isServed = isServed;
+	public void setRecentlyServed(boolean isRecentlyServed) {
+		this.isRecentlyServed = isRecentlyServed;
 	}
 	
 	public void setLine(int line){

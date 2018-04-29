@@ -55,7 +55,7 @@ public class DataReader {
 //						inputFile1.nextLine();
 //					}
 					m = inputFile1.nextLong();
-					Customer c = new Customer(id, n, m);
+					Customer c = new Customer(n, m);
 					arrivalQueue.enqueue(c);
 				}
 				inputFile1.close();

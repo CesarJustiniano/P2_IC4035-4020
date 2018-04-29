@@ -120,6 +120,7 @@ public class Main {
 				out.close();
 		}
 	}
+
         
     
 	
@@ -131,7 +132,7 @@ public class Main {
 		while(!(j==custList.size())) {
 			
 			Customer customer = custList.dequeue();
-			Customer cCust = new Customer(customer.getiD(), customer.getArrTime(), customer.getSerTime());
+			Customer cCust = new Customer(customer.getArrTime(), customer.getSerTime());
 			
 			cCust.setDepTime(customer.getDepTime());
 			custList.enqueue(customer);
