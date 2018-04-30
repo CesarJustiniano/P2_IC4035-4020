@@ -48,6 +48,13 @@ public class Customer {
 	public int getWaitingTime(){
 		return waitingTime;
 	}
+	
+	public int getWaitingTime(int time){
+		int result = time - serviceTime;
+		if(result < 0)
+			return result * -1;
+		return result;
+	}
 
 	//setters
 	public void incrementM() {

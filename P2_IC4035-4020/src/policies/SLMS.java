@@ -1,7 +1,6 @@
 
 package policies;
 
-import java.util.ArrayList;
 
 import customer.Customer;
 import queues.SLLQueue;
