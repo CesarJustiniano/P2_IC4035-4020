@@ -6,6 +6,7 @@ public class Customer {
 	private int arrivalTime; //The first int of data
 	private int serviceTime; //The second int of data
 	private long departureTime; 
+	private int waitingTime;
 	
 	public Customer(int arrivalTime, int serviceTime){
 		this.iD = 0;
@@ -44,19 +45,17 @@ public class Customer {
 		return line;
 	}
 	
-	public long getWaitingTime(){
-		long result = arrivalTime - departureTime;
-		
-		if(result < 0){
-			return result * -1;
-		}
-		
-		return result;
+	public int getWaitingTime(){
+		return waitingTime;
 	}
 
 	//setters
 	public void incrementM() {
 		m++; //this variable will function as a counter
+	}
+
+	public void setWaitingTime(int waitingTime) {
+		this.waitingTime = waitingTime;
 	}
 
 	public void setArrTime(int arrivalTime) {
@@ -67,8 +66,8 @@ public class Customer {
 		this.serviceTime = serviceTime;
 	}
 
-	public void setDepTime(long departureTime) {
-		this.departureTime = departureTime;
+	public void setDepTime(long l) {
+		this.departureTime = l;
 	}
 
 	public void setiD(int iD) {

@@ -1,15 +1,15 @@
 
 package policies;
 
+import java.util.ArrayList;
+
 import customer.Customer;
 import queues.SLLQueue;
-import servers.Server;
 
 public class SLMS {	
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
-	private Server policy;
     //time input
-    private long time;
+    private int time;
         
     public SLMS(SLLQueue<Customer> arrivalQueue) {
     	this.arrivalQueue = arrivalQueue ;
@@ -18,9 +18,8 @@ public class SLMS {
    		time = 0;
    	}
         
-    public void Service(int size) {
+    public void Service(int size){
     	boolean isFirstClient = true;
-    	int iD = 0;
     	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			
@@ -32,15 +31,16 @@ public class SLMS {
 					isFirstClient = false;
 				}
 				
-				while(arrivalQueue.first().getArrTime() <= time){
-					policy.add(arrivalQueue.dequeue(), 0, iD++);
-				}
-				
-				Customer job1 = policy.peekFirstInLine();
-				
-				if(job1.getArrTime()>=time && serviceStartsQueue.size() != size){
-					job1.setRecentlyServed(true);
-					serviceStartsQueue.enqueue(arrivalQueue.dequeue());
+				for(int i=0;i<size;i++){
+					if(!arrivalQueue.isEmpty()){
+						Customer job1 = arrivalQueue.first();
+						
+						if(job1.getArrTime()<=time && serviceStartsQueue.size() < size){
+							job1.setWaitingTime(time - job1.getArrTime());
+							job1.setDepTime(time + job1.getSerTime());
+							serviceStartsQueue.enqueue(arrivalQueue.dequeue());
+						}
+					}
 				}
 			}
 			
@@ -48,11 +48,8 @@ public class SLMS {
 				//this for loop is to make every service post serve once per time
 				for(int i=0;i<serviceStartsQueue.size();i++){
 					Customer job = serviceStartsQueue.first();
-					job.setSerTime(job.getSerTime() - 1);
-					job.setRecentlyServed(false);
 					
-					if(job.getSerTime() == 0) {
-						job.setDepTime(time);
+					if(job.getDepTime() <= time) {
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
 						i--;
 					}
@@ -62,14 +59,26 @@ public class SLMS {
 				}
 			}
 			
-			time++;	
+			time++;
+			if(!arrivalQueue.isEmpty()){
+				if(arrivalQueue.first().getArrTime() - time > 1){
+					time = arrivalQueue.first().getArrTime();
+				}
+			}
 		}
 		time--;
 	}
     
     //Use only when all customers received complete service
-    public float getAverageM(){
-    	return 0; //the result will always be 0 because there will always be one line
+    public float getAverageM() throws CloneNotSupportedException{
+    	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
+    	float m = 0;
+    	
+    	while(!tempQueue.isEmpty()){
+    		m += tempQueue.dequeue().getM();
+    	}
+    	
+    	return m / serviceCompletedQueue.size(); //m
     }
     
     //Use only when all customers received complete service
@@ -85,7 +94,7 @@ public class SLMS {
     }
 
     //Use only when all customers received complete service
-	public long getTime() {
+	public int getTime() {
 		return time; //t1
 	}
 	

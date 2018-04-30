@@ -4,6 +4,7 @@ import customer.Customer;
 import queues.SLLQueue;
 
 public class Server {
+	private Customer client;
 	private SLLQueue<Customer> lineQueue;
 	
 	public Server(){
@@ -15,14 +16,16 @@ public class Server {
 	}
 	
 	public void add(Customer client, int numLine, int iD){
-		client.setiD(iD);
-		client.setLine(numLine);
-		lineQueue.enqueue(client);
+		Customer c = client;
+		c.setiD(iD);
+		c.setLine(numLine);
+		lineQueue.enqueue(c);
 	}
 	
 	public void addTransfer(Customer client, int numLine){
-		client.setLine(numLine);
-		lineQueue.enqueue(client);
+		Customer c = client;
+		c.setLine(numLine);
+		lineQueue.enqueue(c);
 	}
 	
 	public Customer peekFirstInLine(){
@@ -45,8 +48,8 @@ public class Server {
 		return lineQueue.size();
 	}
 	
-	public long getTotalWaitTime(){
-		SLLQueue<Customer> tempQueue = lineQueue;
+	public long getTotalWaitTime() throws CloneNotSupportedException{
+		SLLQueue<Customer> tempQueue = lineQueue.clone();
 		long sum = 0;
 		
 		while(!tempQueue.isEmpty()){
@@ -54,6 +57,14 @@ public class Server {
 		}
 		
 		return sum;
+	}
+
+	public Customer getClient() {
+		return client;
+	}
+
+	public void setClient(Customer client) {
+		this.client = client;
 	}
 	
 }

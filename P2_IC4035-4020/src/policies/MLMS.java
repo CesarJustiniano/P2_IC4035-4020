@@ -10,26 +10,34 @@ import servers.Server;
 
 public class MLMS {
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
-	private Server[] policy;
+	//private ArrayList<SLLQueue<Customer>> arrayQueue;
+	private Server[] lines;
 	//time input
-    private long time;
+    private int time;
     
         
     public MLMS(SLLQueue<Customer> arrivalQueue) {
     	this.arrivalQueue = arrivalQueue ;
     	this.serviceStartsQueue =  new SLLQueue<Customer>();
     	this.serviceCompletedQueue  =  new SLLQueue<Customer>() ; 
+    	//this.arrayQueue = new ArrayList<SLLQueue<Customer>>();
+    	//this.lines = new Server();
+    	//this.line = new SLLQueue<Customer>();
     	time = 0;
     }
         
     public void Service(int size) throws CloneNotSupportedException {
-    	policy = new Server[size];
     	boolean isFirstClient = true;
     	int iD = 0;
+    	lines = new Server[size];
+    	
+    	for(int i=0;i<size;i++){
+    		lines[i] = new Server();
+    	}
     	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			
-			if(!arrivalQueue.isEmpty() || numOfWaitingLines(policy) > 0)
+			if(!arrivalQueue.isEmpty() || numOfWaitingLines() > 0)
 			{	
 				//setting time equal to the first person that arrives
 				if(isFirstClient){
@@ -37,35 +45,38 @@ public class MLMS {
 					isFirstClient = false;
 				}
 				
-				while(arrivalQueue.first().getArrTime() <= time){
-					assignToLine(policy, iD++);
+				for(int i=0;i<arrivalQueue.size();i++){
+					if(arrivalQueue.first().getArrTime() <= time){
+						assignToLine(iD++);
+						i--;
+					}
+					else
+						i = arrivalQueue.size();
 				}
 								
 				Customer[] jobs = new Customer[size];
 				
 				for(int i=0;i<size;i++){
-					jobs[i] = policy[i].peekFirstInLine();
+					jobs[i] = lines[i].peekFirstInLine();
 					
-					if(jobs[i].getArrTime()>=time && serviceStartsQueue.size() != numOfWaitingLines(policy) && 
-							isIndicatedServerAvailable(i) && jobs[i] != null){
+					if(serviceStartsQueue.size() != numOfWaitingLines() && isIndicatedServerAvailable(i)){
 						jobs[i].setRecentlyServed(true);
-						serviceStartsQueue.enqueue(policy[i].nextCustomer());
+						jobs[i].setWaitingTime(time - jobs[i].getArrTime());
+						jobs[i].setDepTime(time + jobs[i].getSerTime());
+						serviceStartsQueue.enqueue(lines[i].nextCustomer());
 					}
 				}
 				
-				updatingEachM(policy);
+				updatingEachM();
 			}
 			
 			if(!serviceStartsQueue.isEmpty()) {
 				//this for loop is to make every service post serve once per time
 				for(int i=0;i<serviceStartsQueue.size();i++){
 					Customer job = serviceStartsQueue.first();
-					job.setSerTime(job.getSerTime() - 1);
 					job.setRecentlyServed(false);
 
-				
-					if(job.getSerTime() == 0) {
-						job.setDepTime(time);
+					if(job.getDepTime() <= 0) {
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
 						i--;
 					}
@@ -76,6 +87,11 @@ public class MLMS {
 			}
 			
 			time++;
+			if(!arrivalQueue.isEmpty()){
+				if(arrivalQueue.first().getArrTime() - time > 1){
+					time = arrivalQueue.first().getArrTime();
+				}
+			}
 		}
 		time--;
     }
@@ -92,23 +108,23 @@ public class MLMS {
     	return true;
     }
     
-    private void assignToLine(Server[] line, int iD){
+    private void assignToLine(int iD){
     	if(!arrivalQueue.isEmpty()){
     		int index, shortestLine;
     		index = 0;
-    		shortestLine = line[index].lineLength();
+    		shortestLine = lines[0].lineLength();
         	
-        	for(int i=1;i<line.length;i++){
-        		if(line[i].lineLength() < shortestLine){
+        	for(int i=1;i<lines.length;i++){
+        		if(lines[i].lineLength() < shortestLine){
         			index = i;
         		}
         	}
         	
-        	line[index].add(arrivalQueue.dequeue(), index, iD);
+        	lines[index].add(arrivalQueue.dequeue(), index, iD);
     	}
     }
     
-    private int numOfWaitingLines(Server[] lines){
+    private int numOfWaitingLines(){
     	int count = 0;
     	
     	for(int i=0;i<lines.length;i++){
@@ -120,7 +136,7 @@ public class MLMS {
     	return count;
     }
     
-    private void updatingEachM(Server[] lines) throws CloneNotSupportedException{
+    private void updatingEachM() throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceStartsQueue.clone();
     	ArrayList<Customer> tempArray = new ArrayList<Customer>();
     	
@@ -128,7 +144,7 @@ public class MLMS {
     		Customer job = tempQueue.dequeue();
     		
     		for(int i=0;i<lines.length;i++){
-    			if(lines[i].lineLength() != 0){ // current line is not empty
+    			if(lines[i].isThereLine()){ // current line is not empty
     				for(int j=0;j<lines[i].lineLength();j++){
     					tempArray.add(lines[i].nextCustomer());
         				
@@ -148,9 +164,9 @@ public class MLMS {
     }
 
     //Use only when all customers received complete service
-    public long getAverageM() throws CloneNotSupportedException{
+    public float getAverageM() throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
-    	int m = 0;
+    	float m = 0;
     	
     	while(!tempQueue.isEmpty()){
     		m += tempQueue.dequeue().getM();
@@ -160,9 +176,9 @@ public class MLMS {
     }
     
     //Use only when all customers received service
-    public long getAverageWaitingTime() throws CloneNotSupportedException{
+    public float getAverageWaitingTime() throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
-    	long sum = 0;
+    	float sum = 0;
     	
     	while(!tempQueue.isEmpty()){
     		sum += tempQueue.dequeue().getWaitingTime();
@@ -172,7 +188,7 @@ public class MLMS {
     }
 
     //Use only when all customers received service
-	public long getTime() {
+	public int getTime() {
 		return time; //t1
 	}
 	
