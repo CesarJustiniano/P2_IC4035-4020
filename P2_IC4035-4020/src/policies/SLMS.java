@@ -9,7 +9,7 @@ public class SLMS {
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
 	private Server policy;
     //time input
-    private long time;
+    private int time;
         
     public SLMS(SLLQueue<Customer> arrivalQueue) {
     	this.arrivalQueue = arrivalQueue ;
@@ -18,7 +18,7 @@ public class SLMS {
    		time = 0;
    	}
         
-    public void Service(int size) {
+    public void Service(int size){
     	boolean isFirstClient = true;
     	int iD = 0;
     	
@@ -32,15 +32,22 @@ public class SLMS {
 					isFirstClient = false;
 				}
 				
-				while(arrivalQueue.first().getArrTime() <= time){
-					policy.add(arrivalQueue.dequeue(), 0, iD++);
-				}
+				//while(arrivalQueue.first().getArrTime() <= time){
+//				if(!arrivalQueue.isEmpty()){
+//					policy.add(arrivalQueue.dequeue(), 0, iD++);
+//				}
+				//}
 				
-				Customer job1 = policy.peekFirstInLine();
-				
-				if(job1.getArrTime()>=time && serviceStartsQueue.size() != size){
-					job1.setRecentlyServed(true);
-					serviceStartsQueue.enqueue(arrivalQueue.dequeue());
+//				while(arrivalQueue.first().getArrTime()<=time && serviceStartsQueue.size() != size){
+//					serviceStartsQueue.enqueue(arrivalQueue.dequeue());
+//				}
+				for(int i=0;i<size;i++){
+					Customer job1 = arrivalQueue.first(); //policy.peekFirstInLine()
+					
+					if(job1.getArrTime()<=time && serviceStartsQueue.size() != size){
+						job1.setWaitingTime(time - job1.getArrTime());
+						serviceStartsQueue.enqueue(arrivalQueue.dequeue());
+					}
 				}
 			}
 			
@@ -49,10 +56,10 @@ public class SLMS {
 				for(int i=0;i<serviceStartsQueue.size();i++){
 					Customer job = serviceStartsQueue.first();
 					job.setSerTime(job.getSerTime() - 1);
-					job.setRecentlyServed(false);
 					
 					if(job.getSerTime() == 0) {
-						job.setDepTime(time);
+						//job.setDepTime(time);
+						serviceStartsQueue.first().setDepTime(time);
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
 						i--;
 					}
@@ -85,7 +92,7 @@ public class SLMS {
     }
 
     //Use only when all customers received complete service
-	public long getTime() {
+	public int getTime() {
 		return time; //t1
 	}
 	

@@ -11,7 +11,7 @@ public class MLMSBLL {
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
 	private Server[] policy;
 	//time input
-    private long time;
+    private int time;
     
         
     public MLMSBLL(SLLQueue<Customer> arrivalQueue) {

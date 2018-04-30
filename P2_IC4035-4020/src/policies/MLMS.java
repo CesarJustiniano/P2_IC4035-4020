@@ -10,9 +10,8 @@ import servers.Server;
 
 public class MLMS {
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
-	private Server[] policy;
 	//time input
-    private long time;
+    private int time;
     
         
     public MLMS(SLLQueue<Customer> arrivalQueue) {
@@ -23,7 +22,7 @@ public class MLMS {
     }
         
     public void Service(int size) throws CloneNotSupportedException {
-    	policy = new Server[size];
+    	Server[] policy = new Server[size];
     	boolean isFirstClient = true;
     	int iD = 0;
     	
@@ -35,11 +34,10 @@ public class MLMS {
 				if(isFirstClient){
 					time = arrivalQueue.first().getArrTime();
 					isFirstClient = false;
+					policy[0].add(arrivalQueue.dequeue(), 0, iD++);
 				}
 				
-				while(arrivalQueue.first().getArrTime() <= time){
-					assignToLine(policy, iD++);
-				}
+				assignToLine(policy, iD++);
 								
 				Customer[] jobs = new Customer[size];
 				
@@ -92,19 +90,19 @@ public class MLMS {
     	return true;
     }
     
-    private void assignToLine(Server[] line, int iD){
+    private void assignToLine(Server[] lines, int iD){
     	if(!arrivalQueue.isEmpty()){
     		int index, shortestLine;
     		index = 0;
-    		shortestLine = line[index].lineLength();
+    		shortestLine = lines[0].lineLength();
         	
-        	for(int i=1;i<line.length;i++){
-        		if(line[i].lineLength() < shortestLine){
+        	for(int i=1;i<lines.length;i++){
+        		if(lines[i].lineLength() < shortestLine){
         			index = i;
         		}
         	}
         	
-        	line[index].add(arrivalQueue.dequeue(), index, iD);
+        	lines[index].add(arrivalQueue.dequeue(), index, iD);
     	}
     }
     

@@ -15,14 +15,16 @@ public class Server {
 	}
 	
 	public void add(Customer client, int numLine, int iD){
-		client.setiD(iD);
-		client.setLine(numLine);
-		lineQueue.enqueue(client);
+		Customer c = client;
+		c.setiD(iD);
+		c.setLine(numLine);
+		lineQueue.enqueue(c);
 	}
 	
 	public void addTransfer(Customer client, int numLine){
-		client.setLine(numLine);
-		lineQueue.enqueue(client);
+		Customer c = client;
+		c.setLine(numLine);
+		lineQueue.enqueue(c);
 	}
 	
 	public Customer peekFirstInLine(){

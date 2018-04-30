@@ -11,8 +11,8 @@ import queues.SLLQueue;
 public class DataReader {
 
 	private String file;    
-	private long n; // Time of arrival of the customer
-	private long m;   // Time that the customer needs for the service
+	private int n; // Time of arrival of the customer
+	private int m;   // Time that the customer needs for the service
 	private int id;
 	private Integer[][][] customer; 
 	private String parentDirectory; 
@@ -50,24 +50,20 @@ public class DataReader {
 			String fileName = inputFile.next(); 
 			Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
 			
-			if(!inputFile1.hasNext("")){
-				while (inputFile1.hasNext()) {
-					n = inputFile1.nextLong();
-					inputFile1.useDelimiter("\t");
-					if(!inputFile1.hasNextLong()){ 
-						inputFile1.close();
-						System.out.println("Incomplete File");
-						return null;
-					}
-					m = inputFile1.nextLong();
-					Customer c = new Customer(n, m);
-					arrivalQueue.enqueue(c);
-				}
-			}
-			else{
-				System.out.println("File is empty");
-				inputFile1.close();
-				return null;
+			while (inputFile1.hasNext()) {
+				if(inputFile.hasNextInt())
+					n = inputFile1.nextInt();
+				else
+					inputFile1.next();
+				
+				inputFile1.useDelimiter("\t");
+				if(inputFile1.hasNextInt())
+					m = inputFile1.nextInt();
+				else
+					inputFile1.nextLine();
+				
+				Customer c = new Customer(n, m);
+				arrivalQueue.enqueue(c);
 			}
 			
 			inputFile1.close();	

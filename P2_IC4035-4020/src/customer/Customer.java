@@ -3,16 +3,18 @@ package customer;
 public class Customer {
 	private int iD, line, m;
 	private boolean isRecentlyServed;  
-	private long arrivalTime; //The first int of data
-	private long serviceTime; //The second int of data
-	private long departureTime; 
+	private int arrivalTime; //The first int of data
+	private int serviceTime; //The second int of data
+	private int departureTime; 
+	private int waitingTime;
 	
-	public Customer(long arrivalTime, long serviceTime){
+	public Customer(int arrivalTime, int serviceTime){
 		this.iD = 0;
 		this.arrivalTime = arrivalTime;
 		this.serviceTime = serviceTime;
 		this.line = 0;
 		this.m = 0;
+		this.waitingTime = 0;
 		isRecentlyServed = false;
 	}
 
@@ -29,14 +31,14 @@ public class Customer {
 		return m;
 	}
 	
-	public long getArrTime() {
+	public int getArrTime() {
 		return arrivalTime;
 	}
 
-	public long getSerTime() {
+	public int getSerTime() {
 		return serviceTime;
 	}
-	public long getDepTime() {
+	public int getDepTime() {
 		return departureTime;
 	}
 	
@@ -44,14 +46,12 @@ public class Customer {
 		return line;
 	}
 	
-	public long getWaitingTime(){
-		long result = arrivalTime - departureTime;
-		
-		if(result < 0){
-			return result * -1;
-		}
-		
-		return result;
+	public int getWaitingTime(){
+		return waitingTime;
+	}
+
+	public void setWaitingTime(int waitingTime) {
+		this.waitingTime = waitingTime;
 	}
 
 	//setters
@@ -59,15 +59,15 @@ public class Customer {
 		m++; //this variable will function as a counter
 	}
 
-	public void setArrTime(long arrivalTime) {
+	public void setArrTime(int arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
 
-	public void setSerTime(long serviceTime) {
+	public void setSerTime(int serviceTime) {
 		this.serviceTime = serviceTime;
 	}
 
-	public void setDepTime(long departureTime) {
+	public void setDepTime(int departureTime) {
 		this.departureTime = departureTime;
 	}
 

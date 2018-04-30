@@ -11,7 +11,7 @@ public class MLMSBWT {
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
 	private Server[] policy;
 	//time input
-    private long time;
+    private int time;
     
         
     public MLMSBWT(SLLQueue<Customer> arrivalQueue) {
@@ -159,7 +159,7 @@ public class MLMSBWT {
     }
     
     //Use only when all customers received complete service
-    public float getAverageOfM() throws CloneNotSupportedException{
+    public float getAverageM() throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
     	float m = 0;
     	
