@@ -43,9 +43,9 @@ public class DataReader {
 		
 		while (inputFile.hasNext()) {
 		
-			if(inputFile.next() == null) {
-				throw new FileNotFoundException ("File not found");
-			}			
+//			if(inputFile.next() == null) {
+//				throw new FileNotFoundException ("File not found");
+//			}			
 				
 			String fileName = inputFile.next(); 
 			Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
