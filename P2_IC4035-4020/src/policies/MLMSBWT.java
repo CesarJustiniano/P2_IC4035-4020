@@ -9,7 +9,7 @@ import servers.Server;
 public class MLMSBWT {
 
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
-	private Server[] policy;
+	private ArrayList<Server> arrayServer;
 	//time input
     private int time;
     
@@ -17,18 +17,22 @@ public class MLMSBWT {
     public MLMSBWT(SLLQueue<Customer> arrivalQueue) {
     	this.arrivalQueue = arrivalQueue ;
     	this.serviceStartsQueue =  new SLLQueue<Customer>();
-    	this.serviceCompletedQueue  =  new SLLQueue<Customer>() ; 
+    	this.serviceCompletedQueue  =  new SLLQueue<Customer>();
+    	this.arrayServer = new ArrayList<Server>();
     	time = 0;
     }
         
     public void Service(int size) throws CloneNotSupportedException {
-    	policy = new Server[size];
     	boolean isFirstClient = true;
     	int iD = 0;
     	
+    	for(int i=0;i<size;i++){
+    		arrayServer.add(new Server());
+    	}
+    	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			
-			if(!arrivalQueue.isEmpty() || numOfWaitingLines(policy) > 0)
+			if(!arrivalQueue.isEmpty() || numOfWaitingLines(arrayServer) > 0)
 			{	
 				//setting time equal to the first person that arrives
 				if(isFirstClient){
@@ -36,23 +40,23 @@ public class MLMSBWT {
 					isFirstClient = false;
 				}
 				
-				while(arrivalQueue.first().getArrTime() <= time){
-					assignToLinePerWait(policy, iD++);
-				}
+				assignToLinePerWait(arrayServer, iD++);
 								
 				Customer[] jobs = new Customer[size];
 				
 				for(int i=0;i<size;i++){
-					jobs[i] = policy[i].peekFirstInLine();
-					
-					if(jobs[i].getArrTime()>=time && serviceStartsQueue.size() != numOfWaitingLines(policy) && 
-							isIndicatedServerAvailable(i) && jobs[i] != null){
-						jobs[i].setRecentlyServed(true);
-						serviceStartsQueue.enqueue(policy[i].nextCustomer());
+					if(arrayServer.get(i).peekFirstInLine() != null){
+						jobs[i] = arrayServer.get(i).peekFirstInLine();
+						
+						if(jobs[i].getArrTime()>=time && serviceStartsQueue.size() != numOfWaitingLines(arrayServer) && 
+								isIndicatedServerAvailable(i)){
+							jobs[i].setRecentlyServed(true);
+							serviceStartsQueue.enqueue(arrayServer.get(i).nextCustomer());
+						}
 					}
 				}
 				
-				updatingEachM(policy);
+				updatingEachM(arrayServer);
 			}
 			
 			if(!serviceStartsQueue.isEmpty()) {
@@ -90,18 +94,18 @@ public class MLMSBWT {
     	return true;
     }
     
-    private void assignToLinePerWait(Server[] line, int iD) throws CloneNotSupportedException{
+    private void assignToLinePerWait(ArrayList<Server> line, int iD) throws CloneNotSupportedException{
     	if(!arrivalQueue.isEmpty()){
     		int index = 0; 
-    		long fastestLine = line[index].getTotalWaitTime() + serverTimeRemaining(index);
+    		long fastestLine = line.get(index).getTotalWaitTime() + serverTimeRemaining(index);
     		
-    		for(int i=1;i<line.length;i++){
-    			if(line[i].getTotalWaitTime() + serverTimeRemaining(i) < fastestLine){
+    		for(int i=1;i<line.size();i++){
+    			if(line.get(i).getTotalWaitTime() + serverTimeRemaining(i) < fastestLine){
                		index = i;
                	}
             }
         	
-        	line[index].add(arrivalQueue.dequeue(), index, iD);
+        	line.get(index).add(arrivalQueue.dequeue(), index, iD);
     	}
     }
     
@@ -119,11 +123,11 @@ public class MLMSBWT {
     	return 0;
     }
     
-    private int numOfWaitingLines(Server[] lines){
+    private int numOfWaitingLines(ArrayList<Server> lines){
     	int count = 0;
     	
-    	for(int i=0;i<lines.length;i++){
-    		if(lines[i].isThereLine()){
+    	for(int i=0;i<lines.size();i++){
+    		if(lines.get(i).isThereLine()){
     			count++;
     		}
     	}
@@ -131,17 +135,17 @@ public class MLMSBWT {
     	return count;
     }
     
-    private void updatingEachM(Server[] lines) throws CloneNotSupportedException{
+    private void updatingEachM(ArrayList<Server> lines) throws CloneNotSupportedException{
     	SLLQueue<Customer> tempQueue = serviceStartsQueue.clone();
     	ArrayList<Customer> tempArray = new ArrayList<Customer>();
     	
     	while(!tempQueue.isEmpty()){
     		Customer job = tempQueue.dequeue();
     		
-    		for(int i=0;i<lines.length;i++){
-    			if(lines[i].lineLength() != 0){ // current line is not empty
-    				for(int j=0;j<lines[i].lineLength();j++){
-    					tempArray.add(lines[i].nextCustomer());
+    		for(int i=0;i<lines.size();i++){
+    			if(lines.get(i).lineLength() != 0){ // current line is not empty
+    				for(int j=0;j<lines.get(i).lineLength();j++){
+    					tempArray.add(lines.get(i).nextCustomer());
         				
         				//checking if the attended client arrived later than a client in line
         				if(job.getiD() > tempArray.get(j).getiD() && job.isRecentlyServed()){ 
@@ -151,7 +155,7 @@ public class MLMSBWT {
     				
     				//returning the clients back to their line in their original order
     				while(!tempArray.isEmpty()){
-    					lines[i].addTransfer(tempArray.remove(0), i);
+    					lines.get(i).addTransfer(tempArray.remove(0), i);
     				}
     			}
     		}
@@ -183,7 +187,7 @@ public class MLMSBWT {
     }
 
     //Use only when all customers received service
-	public long getTime() {
+	public int getTime() {
 		return time; //t1
 	}
 	

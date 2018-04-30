@@ -3,11 +3,9 @@ package policies;
 
 import customer.Customer;
 import queues.SLLQueue;
-import servers.Server;
 
 public class SLMS {	
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
-	private Server policy;
     //time input
     private int time;
         
@@ -20,7 +18,6 @@ public class SLMS {
         
     public void Service(int size){
     	boolean isFirstClient = true;
-    	int iD = 0;
     	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {
 			
@@ -58,8 +55,7 @@ public class SLMS {
 					job.setSerTime(job.getSerTime() - 1);
 					
 					if(job.getSerTime() == 0) {
-						//job.setDepTime(time);
-						serviceStartsQueue.first().setDepTime(time);
+						job.setDepTime(time);
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
 						i--;
 					}

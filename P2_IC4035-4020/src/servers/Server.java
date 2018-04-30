@@ -47,8 +47,8 @@ public class Server {
 		return lineQueue.size();
 	}
 	
-	public long getTotalWaitTime(){
-		SLLQueue<Customer> tempQueue = lineQueue;
+	public long getTotalWaitTime() throws CloneNotSupportedException{
+		SLLQueue<Customer> tempQueue = lineQueue.clone();
 		long sum = 0;
 		
 		while(!tempQueue.isEmpty()){

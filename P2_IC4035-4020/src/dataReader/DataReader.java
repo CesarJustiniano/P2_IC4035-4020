@@ -51,16 +51,13 @@ public class DataReader {
 			Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
 			
 			while (inputFile1.hasNext()) {
-				if(inputFile.hasNextInt())
-					n = inputFile1.nextInt();
-				else
-					inputFile1.next();
-				
-				inputFile1.useDelimiter("\t");
-				if(inputFile1.hasNextInt())
-					m = inputFile1.nextInt();
-				else
-					inputFile1.nextLine();
+				String input = inputFile1.nextLine();
+				String[] numbers = input.split("\t");
+				n = Integer.parseInt(numbers[0]);
+	            m = Integer.parseInt(numbers[1].substring(numbers[1].length()-1));
+	               
+	            System.out.println("n " + n);
+	            System.out.println("m " + m);
 				
 				Customer c = new Customer(n, m);
 				arrivalQueue.enqueue(c);

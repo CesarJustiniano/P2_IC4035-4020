@@ -64,7 +64,7 @@ public class Main {
 		//if(arrivalQueue != null){
 		
 		int n, m;
-			for(int i=0;i<3;i++){
+			for(int i=0;i<10;i++){
 				n = scan.nextInt();
 				m = scan.nextInt();
 				
@@ -75,7 +75,10 @@ public class Main {
 			System.out.println("Number of customers is: " + arrivalQueue.size());
 			SLMS slms1, slms3, slms5;
 			
-			slms1 = slms3 = slms5 = new SLMS(arrivalQueue.clone());
+			slms1 = new SLMS(arrivalQueue.clone());
+			slms3 = new SLMS(arrivalQueue.clone());
+			slms5 = new SLMS(arrivalQueue.clone());
+
 	        slms1.Service(1);
 	        System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
 	        
@@ -85,43 +88,42 @@ public class Main {
 	        slms5.Service(5);
 	        System.out.println("SLMS 5:\t" + slms5.getTime() + "\t" + slms5.getAverageWaitingTime() +  "\t" + slms5.getAverageM());
 
-	        MLMS mlms1, mlms3, mlms5;
-	        
-	        mlms1 = mlms3 = mlms5 = new MLMS(arrivalQueue.clone());
-	        mlms1.Service(1);
-	        System.out.println("MLMS 1:\t" + mlms1.getTime() + "\t" + mlms1.getAverageWaitingTime() +  "\t" + mlms1.getAverageM());
-
-	        mlms3.Service(3);
-	        System.out.println("MLMS 3:\t" + mlms3.getTime() + "\t" + mlms3.getAverageWaitingTime() +  "\t" + mlms3.getAverageM());
-
-	        mlms5.Service(5);
-	        System.out.println("MLMS 5:\t" + mlms5.getTime() + "\t" + mlms5.getAverageWaitingTime() +  "\t" + mlms5.getAverageM());
-
+//	        MLMS mlms1, mlms3, mlms5;
 //	        
-//	        MLMSBLL mlmsbll1 = new MLMSBLL(arrivalQueue.clone());
+//	        mlms1 = mlms3 = mlms5 = new MLMS(arrivalQueue.clone());
+//	        mlms1.Service(1);
+//	        System.out.println("MLMS 1:\t" + mlms1.getTime() + "\t" + mlms1.getAverageWaitingTime() +  "\t" + mlms1.getAverageM());
+//
+//	        mlms3.Service(3);
+//	        System.out.println("MLMS 3:\t" + mlms3.getTime() + "\t" + mlms3.getAverageWaitingTime() +  "\t" + mlms3.getAverageM());
+//
+//	        mlms5.Service(5);
+//	        System.out.println("MLMS 5:\t" + mlms5.getTime() + "\t" + mlms5.getAverageWaitingTime() +  "\t" + mlms5.getAverageM());
+
+//	        MLMSBLL mlmsbll1, mlmsbll3, mlmsbll5;
+//	        
+//	        mlmsbll1 = mlmsbll3 = mlmsbll5 = new MLMSBLL(arrivalQueue.clone());
+//	        
 //	        mlmsbll1.Service(1);
-//	        System.out.println("SLMS 1:\t" + mlmsbll1.getTime() + "\t" + mlmsbll1.getAverageWaitingTime() +  "\t" + mlmsbll1.getAverageM());
+//	        System.out.println("MLMSBLL 1:\t" + mlmsbll1.getTime() + "\t" + mlmsbll1.getAverageWaitingTime() +  "\t" + mlmsbll1.getAverageM());
 //
-//	        MLMSBLL mlmsbll3 = new MLMSBLL(arrivalQueue.clone());
 //	        mlmsbll3.Service(3);
-//	        System.out.println("SLMS 1:\t" + mlmsbll3.getTime() + "\t" + mlmsbll3.getAverageWaitingTime() +  "\t" + mlmsbll3.getAverageM());
+//	        System.out.println("MLMSBLL 3:\t" + mlmsbll3.getTime() + "\t" + mlmsbll3.getAverageWaitingTime() +  "\t" + mlmsbll3.getAverageM());
 //
-//	        MLMSBLL mlmsbll5 = new MLMSBLL(arrivalQueue.clone());
 //	        mlmsbll5.Service(5);
-//	        System.out.println("SLMS 1:\t" + mlmsbll5.getTime() + "\t" + mlmsbll5.getAverageWaitingTime() +  "\t" + mlmsbll5.getAverageM());
-//
+//	        System.out.println("MLMSBLL 5:\t" + mlmsbll5.getTime() + "\t" + mlmsbll5.getAverageWaitingTime() +  "\t" + mlmsbll5.getAverageM());
+
+//	        MLMSBWT mlmsbwt1, mlmsbwt3, mlmsbwt5;
 //	        
-//	        MLMSBWT mlmsbwt1 = new MLMSBWT(arrivalQueue.clone());
+//	        mlmsbwt1 = mlmsbwt3 = mlmsbwt5 = new MLMSBWT(arrivalQueue.clone());
 //	        mlmsbwt1.Service(1);
-//	        System.out.println("SLMS 1:\t" + mlmsbwt1.getTime() + "\t" + mlmsbwt1.getAverageWaitingTime() +  "\t" + mlmsbwt1.getAverageM());
+//	        System.out.println("MLMSBWT 1:\t" + mlmsbwt1.getTime() + "\t" + mlmsbwt1.getAverageWaitingTime() +  "\t" + mlmsbwt1.getAverageM());
 //
-//	        MLMSBWT mlmsbwt3 = new MLMSBWT(arrivalQueue.clone());
 //	        mlmsbwt3.Service(3);
-//	        System.out.println("SLMS 1:\t" + mlmsbwt3.getTime() + "\t" + mlmsbwt3.getAverageWaitingTime() +  "\t" + mlmsbwt3.getAverageM());
+//	        System.out.println("MLMSBWT 3:\t" + mlmsbwt3.getTime() + "\t" + mlmsbwt3.getAverageWaitingTime() +  "\t" + mlmsbwt3.getAverageM());
 //
-//	        MLMSBWT mlmsbwt5 = new MLMSBWT(arrivalQueue.clone());
 //	        mlmsbwt5.Service(5);
-//	        System.out.println("SLMS 1:\t" + mlmsbwt5.getTime() + "\t" + mlmsbwt5.getAverageWaitingTime() +  "\t" + mlmsbwt5.getAverageM());
+//	        System.out.println("MLMSBWT 5:\t" + mlmsbwt5.getTime() + "\t" + mlmsbwt5.getAverageWaitingTime() +  "\t" + mlmsbwt5.getAverageM());
 
 	        scan.close();
 		
