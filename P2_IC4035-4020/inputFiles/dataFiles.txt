@@ -4,7 +4,3 @@ data_2.txt
 data_3.txt
 data_4.txt
 data_5.txt
-data_6.txt
-data_7.txt
-data_8.txt
-data_9.txt

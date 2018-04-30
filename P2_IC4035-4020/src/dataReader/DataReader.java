@@ -1,13 +1,20 @@
 package dataReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import customer.Customer;
 import queues.SLLQueue;
 
-
+/**
+ * 	The class reads the file 
+ * @author JaiTorres13
+ * 	Jainel Marie Torres Santos (843-14-8932) (Sec. 030)
+ *@author CesarJustiniano 
+ *	Cesar Andres Justiniano Santiago (840-15-3720)(Sec. 030)
+ *
+ */
 public class DataReader {
 
 	private String file;    
@@ -21,79 +28,68 @@ public class DataReader {
 	public static void main(String[] args)  throws FileNotFoundException{
 		
 		DataReader dt = new DataReader();
-		SLLQueue<Customer> list = dt.readDataFiles();
-		list.toPrint();
+		SLLQueue<Customer> list = dt.readDataFiles("data_0.txt");
+		if(list.isEmpty()) System.out.println("is empty");
 	}
 	
 
 	public DataReader() throws FileNotFoundException {
 		parentDirectory = "inputFiles"; 
 		Scanner dataFiles = new Scanner(new File(parentDirectory, "dataFiles.txt")); 
-		// the values of n and m shall be read from file: "inputFiles/input.txt". 
-//		while(dataFiles.hasNext()) {
-//		this.file = dataFiles.nextLine();	
-//		}
 		dataFiles.close();
 	}
 	
 	/**
-	 * 
-	 * @return
+	 *  reads the name of the file of the string 
+	 * @param inputFile
+	 * @return arrivalQueue
+	 * @throws NoSuchElementException 
 	 * @throws FileNotFoundException 
 	 */
-	public SLLQueue<Customer> readDataFiles() throws FileNotFoundException {
+	public SLLQueue<Customer> readDataFiles(String inputFile) throws NoSuchElementException,
+	FileNotFoundException{
 		SLLQueue<Customer> arrivalQueue = new SLLQueue<>();
 		
 		parentDirectory = "inputFiles";
-//		File dir = new File("inputFiles/dataFiles.txt");
-//		for(File file: dir.listFiles()) {
-//			Scanner s = new Scanner(file);
-//			System.out.println(s);
-//			s.close();
-//		}
-		Scanner inputFile = new Scanner(new File(parentDirectory, "dataFiles.txt")); 
+		String fileName = inputFile;
+		Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
+			try {
 		
-		while (inputFile.hasNext()) {
-		
-			if(inputFile.next() == null) {
-				throw new FileNotFoundException ("File not found");
-			}			
 				
-			String fileName = inputFile.next(); 
-			Scanner inputFile1 = new Scanner(new File(parentDirectory, fileName)); 
-			System.out.println(fileName);
 			
-		
+			System.out.println(fileName);
+			    
+			
 				while (inputFile1.hasNext()) {
 					String input = inputFile1.nextLine();
 					String[] numbers = input.split("\t");
+					if(numbers.length < 2)
+						throw new NoSuchElementException();
 					   n = Integer.parseInt(numbers[0]);
 		               m = Integer.parseInt(numbers[1].substring(numbers[1].length()-1));
 		               
 		               System.out.println("n " + n);
 		               System.out.println("m " + m);
-//					if(inputFile1.hasNextInt()) {
-//					n = inputFile1.nextInt();
-//					System.out.println("n " + n);}
-////					else 
-////							inputFile.next();
-//					
-//					inputFile1.useDelimiter("\t");
-//					if(inputFile1.hasNextInt())
-//					m = inputFile1.nextInt();
-//					System.out.println(m);
+
 					
 					Customer c = new Customer(n, m);
 					arrivalQueue.enqueue(c);
-				}
-				inputFile1.close();	
-			}
+				}	
+			inputFile1.close();
 		
-		
-		inputFile.close();	
+		}  catch (NoSuchElementException  e) {
+            System.out.println();
+            while(!arrivalQueue.isEmpty())
+            		arrivalQueue.dequeue();
+        } finally {
+            if ( inputFile1 != null) {
+                inputFile1.close();
+            }
+        }
 		System.out.println("Completed File");
 		return arrivalQueue; 
 	}
+	
 
 	
 	public void printFiles() { 
