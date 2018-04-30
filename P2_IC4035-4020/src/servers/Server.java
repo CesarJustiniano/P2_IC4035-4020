@@ -4,7 +4,6 @@ import customer.Customer;
 import queues.SLLQueue;
 
 public class Server {
-	private Customer client;
 	private SLLQueue<Customer> lineQueue;
 	
 	public Server(){
@@ -58,13 +57,15 @@ public class Server {
 		
 		return sum;
 	}
-
-	public Customer getClient() {
-		return client;
-	}
-
-	public void setClient(Customer client) {
-		this.client = client;
-	}
 	
+	public long getTotalWaitTime(int time) throws CloneNotSupportedException{
+		SLLQueue<Customer> tempQueue = lineQueue.clone();
+		long sum = 0;
+		
+		while(!tempQueue.isEmpty()){
+			sum += tempQueue.dequeue().getWaitingTime(time);
+		}
+		
+		return sum;
+	}
 }

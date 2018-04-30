@@ -10,7 +10,6 @@ import servers.Server;
 
 public class MLMS {
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
-	//private ArrayList<SLLQueue<Customer>> arrayQueue;
 	private Server[] lines;
 	//time input
     private int time;
@@ -20,9 +19,6 @@ public class MLMS {
     	this.arrivalQueue = arrivalQueue ;
     	this.serviceStartsQueue =  new SLLQueue<Customer>();
     	this.serviceCompletedQueue  =  new SLLQueue<Customer>() ; 
-    	//this.arrayQueue = new ArrayList<SLLQueue<Customer>>();
-    	//this.lines = new Server();
-    	//this.line = new SLLQueue<Customer>();
     	time = 0;
     }
         
@@ -59,7 +55,7 @@ public class MLMS {
 				for(int i=0;i<size;i++){
 					jobs[i] = lines[i].peekFirstInLine();
 					
-					if(serviceStartsQueue.size() != numOfWaitingLines() && isIndicatedServerAvailable(i)){
+					if(serviceStartsQueue.size() < size && isIndicatedServerAvailable(i) && jobs[i] != null){
 						jobs[i].setRecentlyServed(true);
 						jobs[i].setWaitingTime(time - jobs[i].getArrTime());
 						jobs[i].setDepTime(time + jobs[i].getSerTime());
@@ -76,7 +72,7 @@ public class MLMS {
 					Customer job = serviceStartsQueue.first();
 					job.setRecentlyServed(false);
 
-					if(job.getDepTime() <= 0) {
+					if(job.getDepTime() <= time) {
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
 						i--;
 					}
@@ -87,6 +83,7 @@ public class MLMS {
 			}
 			
 			time++;
+			//time skip
 			if(!arrivalQueue.isEmpty()){
 				if(arrivalQueue.first().getArrTime() - time > 1){
 					time = arrivalQueue.first().getArrTime();
@@ -109,19 +106,17 @@ public class MLMS {
     }
     
     private void assignToLine(int iD){
-    	if(!arrivalQueue.isEmpty()){
-    		int index, shortestLine;
-    		index = 0;
-    		shortestLine = lines[0].lineLength();
+   		int index, shortestLine;
+    	index = 0;
+    	shortestLine = lines[0].lineLength();
         	
-        	for(int i=1;i<lines.length;i++){
-        		if(lines[i].lineLength() < shortestLine){
-        			index = i;
-        		}
+        for(int i=1;i<lines.length;i++){
+        	if(lines[i].lineLength() < shortestLine){
+        		index = i;
         	}
+        }
         	
-        	lines[index].add(arrivalQueue.dequeue(), index, iD);
-    	}
+        lines[index].add(arrivalQueue.dequeue(), index, iD);
     }
     
     private int numOfWaitingLines(){
@@ -132,7 +127,6 @@ public class MLMS {
     			count++;
     		}
     	}
-    	
     	return count;
     }
     
@@ -145,13 +139,15 @@ public class MLMS {
     		
     		for(int i=0;i<lines.length;i++){
     			if(lines[i].isThereLine()){ // current line is not empty
-    				for(int j=0;j<lines[i].lineLength();j++){
+    				int j = 0;
+    				while(lines[i].isThereLine()){
     					tempArray.add(lines[i].nextCustomer());
-        				
-        				//checking if the attended client arrived later than a client in line
+    					
+    					//checking if the attended client arrived later than a client in line
         				if(job.getiD() > tempArray.get(j).getiD() && job.isRecentlyServed()){ 
         					tempArray.get(j).incrementM();
         				}
+        				j++;
     				}
     				
     				//returning the clients back to their line in their original order

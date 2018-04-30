@@ -1,6 +1,5 @@
 package Main;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -20,7 +19,7 @@ import queues.SLLQueue;
  * 
  * @author JaiTorres13
  * 	Jainel Marie Torres Santos (843-14-8932) (Sec. 030)
- *@author CesarJustiniano 
+ * @author CesarJustiniano 
  *	Cesar Andres Justiniano Santiago (840-15-3720)(Sec. 030)
  *
  */
@@ -47,7 +46,7 @@ public class Main {
 				//if(arrivalQueue != null){
 				SLMS slms1 = new SLMS(arrivalQueue);
 				slms1.Service(1);
-				System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
+				//System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
 				SLMS slms3 = new SLMS(arrivalQueue.clone());
 				slms3.Service(3);
 				SLMS slms5 = new SLMS(arrivalQueue.clone());
@@ -127,7 +126,8 @@ public class Main {
 				inputFile.close();
 			}
 		}
-	
+		inputFile.close();	
+
 	}
 
 	public static SLLQueue<Customer> copyList (SLLQueue<Customer> custList) {
