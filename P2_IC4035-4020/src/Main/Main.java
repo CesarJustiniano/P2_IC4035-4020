@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import customer.Customer;
@@ -35,8 +37,12 @@ public class Main {
 			/*
 			 * iterates through all the names in dataFiles.txt
 			 */
-			while (inputFile.hasNextLine()) {
+			while (inputFile.hasNext()) {
 				SLLQueue<Customer> arrivalQueue = datar.readDataFiles(inputFile.next());
+				if(arrivalQueue.isEmpty()) System.out.println("empty");
+				if(!arrivalQueue.isEmpty()) System.out.println("no empty");
+				
+				System.out.println(inputFile.next());
 				if(arrivalQueue.isEmpty()) throw new IndexOutOfBoundsException();
 				//if(arrivalQueue != null){
 				SLMS slms1 = new SLMS(arrivalQueue);
@@ -76,24 +82,29 @@ public class Main {
 					 */
 					String fileName = inputFile.next().substring(0, inputFile.next().length() - 4) + "_OUT.txt" ;
 					PrintWriter out = new PrintWriter(new File(parentDirectory, fileName)); 
-					out.println("Number of Customers: " + arrivalQueue.size());
-
+					out.println("Number of Customers: " + slms1.getTotalNumOfCustomer());
+					DecimalFormat decimalFormat = new DecimalFormat("0.00");
+					
+					out.println("SLMS 1:\t" + slms1.getTime() + "\t" + decimalFormat.format(slms1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms1.getAverageM()));
+					out.println("SLMS 3:\t" + slms3.getTime() + "\t" + decimalFormat.format(slms3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms3.getAverageM()));
+					out.println("SLMS 5:\t" + slms5.getTime() + "\t" + decimalFormat.format(slms5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms5.getAverageM()));
 					out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
 					out.println("SLMS 3:\t" + slms3.getTime() + "\t" + slms3.getAverageWaitingTime() +  "\t" + slms3.getAverageM());
 					out.println("SLMS 5:\t" + slms5.getTime() + "\t" + slms5.getAverageWaitingTime() +  "\t" + slms5.getAverageM());
 
-					out.println("MLMS 1:\t" + mlms1.getTime() + "\t" + mlms1.getAverageWaitingTime() +  "\t" + mlms1.getAverageM());
-					out.println("MLMS 3:\t" + mlms3.getTime() + "\t" + mlms3.getAverageWaitingTime() +  "\t" + mlms3.getAverageM());
-					out.println("MLMS 5:\t" + mlms5.getTime() + "\t" + mlms5.getAverageWaitingTime() +  "\t" + mlms5.getAverageM());
+					out.println("MLMS 1:\t" + mlms1.getTime() + "\t" + decimalFormat.format(mlms1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlms1.getAverageM()));
+					out.println("MLMS 3:\t" + mlms3.getTime() + "\t" + decimalFormat.format(mlms3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlms3.getAverageM()));
+					out.println("MLMS 5:\t" + mlms5.getTime() + "\t" + decimalFormat.format(mlms5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlms5.getAverageM()));
 
-					out.println("MLMSBLL 1:\t" + mlmsbll1.getTime() + "\t" + mlmsbll1.getAverageWaitingTime() +  "\t" + mlmsbll1.getAverageM());
-					out.println("MLMSBLL 3:\t" + mlmsbll3.getTime() + "\t" + mlmsbll3.getAverageWaitingTime() +  "\t" + mlmsbll3.getAverageM());
-					out.println("MLMSBLL 5:\t" + mlmsbll5.getTime() + "\t" + mlmsbll5.getAverageWaitingTime() +  "\t" + mlmsbll5.getAverageM());
+					out.println("MLMSBLL 1:\t" + mlmsbll1.getTime() + "\t" + decimalFormat.format(mlmsbll1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbll1.getAverageM()));
+					out.println("MLMSBLL 3:\t" + mlmsbll3.getTime() + "\t" + decimalFormat.format(mlmsbll3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbll3.getAverageM()));
+					out.println("MLMSBLL 5:\t" + mlmsbll5.getTime() + "\t" + decimalFormat.format(mlmsbll5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbll5.getAverageM()));
 
-					out.println("MLMSBWT 1:\t" + mlmsbwt1.getTime() + "\t" + mlmsbwt1.getAverageWaitingTime() +  "\t" + mlmsbwt1.getAverageM());
-					out.println("MLMSBWT 3:\t" + mlmsbwt3.getTime() + "\t" + mlmsbwt3.getAverageWaitingTime() +  "\t" + mlmsbwt3.getAverageM());
-					out.println("MLMSBWT 5:\t" + mlmsbwt5.getTime() + "\t" + mlmsbwt5.getAverageWaitingTime() +  "\t" + mlmsbwt5.getAverageM());
+					out.println("MLMSBWT 1:\t" + mlmsbwt1.getTime() + "\t" + decimalFormat.format(mlmsbwt1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbwt1.getAverageM()));
+					out.println("MLMSBWT 3:\t" + mlmsbwt3.getTime() + "\t" + decimalFormat.format(mlmsbwt3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbwt3.getAverageM()));
+					out.println("MLMSBWT 5:\t" + mlmsbwt5.getTime() + "\t" + decimalFormat.format(mlmsbwt5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbwt5.getAverageM()));
 					out.close();
+					
 				
 			} 
 		} catch (FileNotFoundException e) {
@@ -103,6 +114,7 @@ public class Main {
 			String fileName = inputFile.next().substring(0, inputFile.next().length() - 4) + "_OUT.txt" ;
 			PrintWriter out = new PrintWriter(new File(parentDirectory, fileName)); 
 			out.println("Input file not found.");
+			inputFile.close();
 		} catch (IndexOutOfBoundsException e) {
 			/*
 			 * creates an output file for bad  files in dataFiles.txt
@@ -110,12 +122,11 @@ public class Main {
 			String fileName = inputFile.next().substring(0, inputFile.next().length() - 4) + "_OUT.txt" ;
 			PrintWriter out = new PrintWriter(new File(parentDirectory, fileName)); 
 			out.println("Input file does not meet the expected format or it is empty");
-		} finally {
+			inputFile.close();
 			if ( inputFile != null) {
 				inputFile.close();
 			}
 		}
-		inputFile.close();	
 	
 	}
 

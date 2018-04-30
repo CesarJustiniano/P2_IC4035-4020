@@ -29,7 +29,7 @@ public class DataReader {
 	public static void main(String[] args)  throws FileNotFoundException{
 		
 		DataReader dt = new DataReader();
-		SLLQueue<Customer> list = dt.readDataFiles("data_0.txt");
+		SLLQueue<Customer> list = dt.readDataFiles("data_5.txt");
 		if(list.isEmpty()) System.out.println("is empty");
 	}
 	
@@ -48,7 +48,7 @@ public class DataReader {
 	 * @throws FileNotFoundException 
 	 */
 	public SLLQueue<Customer> readDataFiles(String inputFile) throws NoSuchElementException,
-	FileNotFoundException{
+	FileNotFoundException, IndexOutOfBoundsException{
 		SLLQueue<Customer> arrivalQueue = new SLLQueue<>();
 		
 		parentDirectory = "inputFiles";
@@ -82,12 +82,16 @@ public class DataReader {
             System.out.println();
             while(!arrivalQueue.isEmpty())
             		arrivalQueue.dequeue();
+        } catch (IndexOutOfBoundsException  e) {
+            System.out.println();
+            while(!arrivalQueue.isEmpty())
+            		arrivalQueue.dequeue();
         } finally {
             if ( inputFile1 != null) {
                 inputFile1.close();
             }
         }
-		System.out.println("Completed File");
+//		System.out.println("Completed File");
 		return arrivalQueue; 
 	}
 	
