@@ -29,7 +29,8 @@ public class MLMS {
     	
     	//initialing lines
     	for(int i=0;i<size;i++){
-    		arrayServer.add(new Server());
+    		Server policy = new Server();
+    		arrayServer.add(policy);
     	}
     	
 		while(!arrivalQueue.isEmpty() || !serviceStartsQueue.isEmpty() ) {

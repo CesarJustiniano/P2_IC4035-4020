@@ -29,17 +29,8 @@ public class SLMS {
 					isFirstClient = false;
 				}
 				
-				//while(arrivalQueue.first().getArrTime() <= time){
-//				if(!arrivalQueue.isEmpty()){
-//					policy.add(arrivalQueue.dequeue(), 0, iD++);
-//				}
-				//}
-				
-//				while(arrivalQueue.first().getArrTime()<=time && serviceStartsQueue.size() != size){
-//					serviceStartsQueue.enqueue(arrivalQueue.dequeue());
-//				}
 				for(int i=0;i<size;i++){
-					Customer job1 = arrivalQueue.first(); //policy.peekFirstInLine()
+					Customer job1 = arrivalQueue.first();
 					
 					if(job1.getArrTime()<=time && serviceStartsQueue.size() != size){
 						job1.setWaitingTime(time - job1.getArrTime());
