@@ -4,6 +4,7 @@ import customer.Customer;
 import queues.SLLQueue;
 
 public class Server {
+	private Customer client;
 	private SLLQueue<Customer> lineQueue;
 	
 	public Server(){
@@ -56,6 +57,14 @@ public class Server {
 		}
 		
 		return sum;
+	}
+
+	public Customer getClient() {
+		return client;
+	}
+
+	public void setClient(Customer client) {
+		this.client = client;
 	}
 	
 }

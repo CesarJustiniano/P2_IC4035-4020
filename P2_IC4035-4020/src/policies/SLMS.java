@@ -1,6 +1,8 @@
 
 package policies;
 
+import java.util.ArrayList;
+
 import customer.Customer;
 import queues.SLLQueue;
 
@@ -30,11 +32,14 @@ public class SLMS {
 				}
 				
 				for(int i=0;i<size;i++){
-					Customer job1 = arrivalQueue.first();
-					
-					if(job1.getArrTime()<=time && serviceStartsQueue.size() != size){
-						job1.setWaitingTime(time - job1.getArrTime());
-						serviceStartsQueue.enqueue(arrivalQueue.dequeue());
+					if(!arrivalQueue.isEmpty()){
+						Customer job1 = arrivalQueue.first();
+						
+						if(job1.getArrTime()<=time && serviceStartsQueue.size() < size){
+							job1.setWaitingTime(time - job1.getArrTime());
+							job1.setDepTime(time + job1.getSerTime());
+							serviceStartsQueue.enqueue(arrivalQueue.dequeue());
+						}
 					}
 				}
 			}
@@ -43,10 +48,8 @@ public class SLMS {
 				//this for loop is to make every service post serve once per time
 				for(int i=0;i<serviceStartsQueue.size();i++){
 					Customer job = serviceStartsQueue.first();
-					job.setSerTime(job.getSerTime() - 1);
 					
-					if(job.getSerTime() == 0) {
-						job.setDepTime(time);
+					if(job.getDepTime() <= time) {
 						serviceCompletedQueue.enqueue(serviceStartsQueue.dequeue());
 						i--;
 					}
@@ -56,14 +59,26 @@ public class SLMS {
 				}
 			}
 			
-			time++;	
+			time++;
+			if(!arrivalQueue.isEmpty()){
+				if(arrivalQueue.first().getArrTime() - time > 1){
+					time = arrivalQueue.first().getArrTime();
+				}
+			}
 		}
 		time--;
 	}
     
     //Use only when all customers received complete service
-    public float getAverageM(){
-    	return 0; //the result will always be 0 because there will always be one line
+    public float getAverageM() throws CloneNotSupportedException{
+    	SLLQueue<Customer> tempQueue = serviceCompletedQueue.clone();
+    	float m = 0;
+    	
+    	while(!tempQueue.isEmpty()){
+    		m += tempQueue.dequeue().getM();
+    	}
+    	
+    	return m / serviceCompletedQueue.size(); //m
     }
     
     //Use only when all customers received complete service

@@ -74,19 +74,21 @@ public class Main {
 				
 			System.out.println("Number of customers is: " + arrivalQueue.size());
 			
-//			SLMS slms1 = new SLMS(arrivalQueue.clone());
-//			SLMS slms3 = new SLMS(arrivalQueue.clone());
-//			SLMS slms5 = new SLMS(arrivalQueue.clone());
-//
-//	        slms1.Service(1);
-//	        System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
-//	        
-//	        slms3.Service(3);
-//	        System.out.println("SLMS 3:\t" + slms3.getTime() + "\t" + slms3.getAverageWaitingTime() +  "\t" + slms3.getAverageM());
-//	        
-//	        slms5.Service(5);
-//	        System.out.println("SLMS 5:\t" + slms5.getTime() + "\t" + slms5.getAverageWaitingTime() +  "\t" + slms5.getAverageM());
+			SLMS slms1 = new SLMS(arrivalQueue.clone());
+			SLMS slms3 = new SLMS(arrivalQueue.clone());
+			SLMS slms5 = new SLMS(arrivalQueue.clone());
 
+	        slms1.Service(1);
+	        System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
+	        
+	        slms3.Service(3);
+	        System.out.println("SLMS 3:\t" + slms3.getTime() + "\t" + slms3.getAverageWaitingTime() +  "\t" + slms3.getAverageM());
+	        
+	        slms5.Service(5);
+	        System.out.println("SLMS 5:\t" + slms5.getTime() + "\t" + slms5.getAverageWaitingTime() +  "\t" + slms5.getAverageM());
+
+	        System.out.println();
+	        
 	        MLMS mlms1 = new MLMS(arrivalQueue.clone());
 	        MLMS mlms3 = new MLMS(arrivalQueue.clone());
 	        MLMS mlms5 = new MLMS(arrivalQueue.clone());
