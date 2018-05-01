@@ -48,47 +48,34 @@ public class Main {
 //				System.out.println(inputFile.next());
 				if(arrivalQueue.isEmpty()) throw new IndexOutOfBoundsException();
 				//if(arrivalQueue != null){
-				
-				SLLQueue<Customer> cloneQueue = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue1 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue2 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue3 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue4 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue5 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue6 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue7 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue8 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue9 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue10 = copyList(arrivalQueue);
-				SLLQueue<Customer> cloneQueue11 = copyList(arrivalQueue);
 
-				SLMS slms1 = new SLMS(cloneQueue);
+				SLMS slms1 = new SLMS(copyList(arrivalQueue));
 				slms1.Service(1);
 				//System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
-				SLMS slms3 = new SLMS(cloneQueue1);
+				SLMS slms3 = new SLMS(copyList(arrivalQueue));
 				slms3.Service(3);
-				SLMS slms5 = new SLMS(cloneQueue2);
+				SLMS slms5 = new SLMS(copyList(arrivalQueue));
 				slms5.Service(5);
 
-				MLMS mlms1 = new MLMS(cloneQueue3);
+				MLMS mlms1 = new MLMS(copyList(arrivalQueue));
 				mlms1.Service(1);
-				MLMS mlms3 = new MLMS(cloneQueue4);
+				MLMS mlms3 = new MLMS(copyList(arrivalQueue));
 				mlms3.Service(3);
-				MLMS mlms5 = new MLMS(cloneQueue5);
+				MLMS mlms5 = new MLMS(copyList(arrivalQueue));
 				mlms5.Service(5);
 
-				MLMSBLL mlmsbll1 = new MLMSBLL(cloneQueue6);
+				MLMSBLL mlmsbll1 = new MLMSBLL(copyList(arrivalQueue));
 				mlmsbll1.Service(1);
-				MLMSBLL mlmsbll3 = new MLMSBLL(cloneQueue7);
+				MLMSBLL mlmsbll3 = new MLMSBLL(copyList(arrivalQueue));
 				mlmsbll3.Service(3);
-				MLMSBLL mlmsbll5 = new MLMSBLL(cloneQueue8);
+				MLMSBLL mlmsbll5 = new MLMSBLL(copyList(arrivalQueue));
 				mlmsbll5.Service(5);
 
-				MLMSBWT mlmsbwt1 = new MLMSBWT(cloneQueue9);
+				MLMSBWT mlmsbwt1 = new MLMSBWT(copyList(arrivalQueue));
 				mlmsbwt1.Service(1);
-				MLMSBWT mlmsbwt3 = new MLMSBWT(cloneQueue10);
+				MLMSBWT mlmsbwt3 = new MLMSBWT(copyList(arrivalQueue));
 				mlmsbwt3.Service(3);
-				MLMSBWT mlmsbwt5 = new MLMSBWT(cloneQueue11);
+				MLMSBWT mlmsbwt5 = new MLMSBWT(copyList(arrivalQueue));
 				mlmsbwt5.Service(5);
 
 
@@ -98,7 +85,7 @@ public class Main {
 					 */
 					String fileName = name.substring(0, 6) + "_OUT.txt" ;
 					PrintWriter out = new PrintWriter(new File(parentDirectory, fileName)); 
-					out.println("Number of Customers: " + slms1.getTotalNumOfCustomer());
+					out.println("Number of Customers: " + arrivalQueue.size());
 					DecimalFormat decimalFormat = new DecimalFormat("0.00");
 					
 					out.println("SLMS 1:\t" + slms1.getTime() + "\t" + decimalFormat.format(slms1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms1.getAverageM()));

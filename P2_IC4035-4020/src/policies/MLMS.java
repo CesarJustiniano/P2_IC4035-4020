@@ -32,7 +32,7 @@ public class MLMS {
         
     public void Service(int size) throws CloneNotSupportedException {
     	boolean isFirstClient = true;
-    	//int iD = 0;
+    	int iD = 0;
     	lines = new Server[size];
     	
     	for(int i=0;i<size;i++){
@@ -51,7 +51,7 @@ public class MLMS {
 				
 				for(int i=0;i<arrivalQueue.size();i++){
 					if(arrivalQueue.first().getArrTime() <= time){
-						assignToLine();
+						assignToLine(iD++);
 						i--;
 					}
 					else
@@ -113,7 +113,7 @@ public class MLMS {
     	return true;
     }
     
-    private void assignToLine(){
+    private void assignToLine(int iD){
    		int index, shortestLine;
     	index = 0;
     	shortestLine = lines[0].lineLength();
@@ -124,7 +124,7 @@ public class MLMS {
         	}
         }
         	
-        lines[index].add(arrivalQueue.dequeue(), index);
+        lines[index].add(arrivalQueue.dequeue(), index, iD);
     }
     
     private int numOfWaitingLines(){
@@ -152,7 +152,7 @@ public class MLMS {
     					tempArray.add(lines[i].nextCustomer());
     					
     					//checking if the attended client arrived later than a client in line
-        				if(job.getArrTime() > tempArray.get(j).getArrTime() && job.isRecentlyServed()){ 
+        				if(job.getiD() > tempArray.get(j).getiD() && job.isRecentlyServed()){ 
         					tempArray.get(j).incrementM();
         				}
         				j++;
