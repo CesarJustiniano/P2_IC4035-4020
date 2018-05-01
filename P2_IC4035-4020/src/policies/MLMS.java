@@ -63,7 +63,7 @@ public class MLMS {
 				for(int i=0;i<size;i++){
 					jobs[i] = lines[i].peekFirstInLine();
 					
-					if(serviceStartsQueue.size() < size && isIndicatedServerAvailable(i) && jobs[i] != null){
+					if(serviceStartsQueue.size() < numOfWaitingLines() && isIndicatedServerAvailable(i) && jobs[i] != null){
 						jobs[i].setRecentlyServed(true);
 						jobs[i].setWaitingTime(time - jobs[i].getArrTime());
 						jobs[i].setDepTime(time + jobs[i].getSerTime());

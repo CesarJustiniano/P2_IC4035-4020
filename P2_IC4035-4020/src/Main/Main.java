@@ -27,7 +27,6 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException, CloneNotSupportedException {
 		DataReader datar = new DataReader();
-//		SLLQueue<Customer> arrivalQueue = datar.readDataFiles();
 		String parentDirectory = "inputFiles";
 		int n = 0;
 		Scanner inputFile = new Scanner(new File(parentDirectory, "dataFiles.txt")); 
@@ -42,16 +41,10 @@ public class Main {
 			
 				String name = inputFile.next();
 				SLLQueue<Customer> arrivalQueue = datar.readDataFiles(name);
-//				if(arrivalQueue.isEmpty()) System.out.println("empty");
-//				if(!arrivalQueue.isEmpty()) System.out.println("no empty");
-//				
-//				System.out.println(inputFile.next());
 				if(arrivalQueue.isEmpty()) throw new IndexOutOfBoundsException();
-				//if(arrivalQueue != null){
 
 				SLMS slms1 = new SLMS(copyList(arrivalQueue));
 				slms1.Service(1);
-				//System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
 				SLMS slms3 = new SLMS(copyList(arrivalQueue));
 				slms3.Service(3);
 				SLMS slms5 = new SLMS(copyList(arrivalQueue));
