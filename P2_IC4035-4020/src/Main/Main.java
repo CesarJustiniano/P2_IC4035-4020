@@ -42,7 +42,6 @@ public class Main {
 			
 				String name = inputFile.next();
 				SLLQueue<Customer> arrivalQueue = datar.readDataFiles(name);
-			
 //				if(arrivalQueue.isEmpty()) System.out.println("empty");
 //				if(!arrivalQueue.isEmpty()) System.out.println("no empty");
 //				
@@ -50,12 +49,9 @@ public class Main {
 				if(arrivalQueue.isEmpty()) throw new IndexOutOfBoundsException();
 				//if(arrivalQueue != null){
 				SLMS slms1 = new SLMS(arrivalQueue);
-				arrivalQueue.toPrint();
 				slms1.Service(1);
-				SLMS slms3 = new SLMS(arrivalQueue);
 				//System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
-				arrivalQueue.toPrint();
-				System.out.println("SLMS 1:\t" + slms3.getTime() + "\t" + slms3.getAverageWaitingTime() +  "\t" + slms3.getAverageM());
+				SLMS slms3 = new SLMS(arrivalQueue.clone());
 				slms3.Service(3);
 				SLMS slms5 = new SLMS(arrivalQueue.clone());
 				slms5.Service(5);
@@ -95,9 +91,6 @@ public class Main {
 					out.println("SLMS 1:\t" + slms1.getTime() + "\t" + decimalFormat.format(slms1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms1.getAverageM()));
 					out.println("SLMS 3:\t" + slms3.getTime() + "\t" + decimalFormat.format(slms3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms3.getAverageM()));
 					out.println("SLMS 5:\t" + slms5.getTime() + "\t" + decimalFormat.format(slms5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms5.getAverageM()));
-//					out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
-//					out.println("SLMS 3:\t" + slms3.getTime() + "\t" + slms3.getAverageWaitingTime() +  "\t" + slms3.getAverageM());
-//					out.println("SLMS 5:\t" + slms5.getTime() + "\t" + slms5.getAverageWaitingTime() +  "\t" + slms5.getAverageM());
 
 					out.println("MLMS 1:\t" + mlms1.getTime() + "\t" + decimalFormat.format(mlms1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlms1.getAverageM()));
 					out.println("MLMS 3:\t" + mlms3.getTime() + "\t" + decimalFormat.format(mlms3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlms3.getAverageM()));
