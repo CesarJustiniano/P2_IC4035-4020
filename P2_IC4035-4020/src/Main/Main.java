@@ -81,21 +81,21 @@ public class Main {
 					out.println("Number of Customers: " + arrivalQueue.size());
 					DecimalFormat decimalFormat = new DecimalFormat("0.00");
 					
-					out.println("SLMS 1:\t" + slms1.getTime() + "\t" + decimalFormat.format(slms1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms1.getAverageM()));
-					out.println("SLMS 3:\t" + slms3.getTime() + "\t" + decimalFormat.format(slms3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms3.getAverageM()));
-					out.println("SLMS 5:\t" + slms5.getTime() + "\t" + decimalFormat.format(slms5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(slms5.getAverageM()));
+					out.println("SLMS 1:\t" + slms1.getTime() + "\t" + decimalFormat.format(slms1.getAverageWaitingTime()) +  "   " + decimalFormat.format(slms1.getAverageM()));
+					out.println("SLMS 3:\t" + slms3.getTime() + "\t" + decimalFormat.format(slms3.getAverageWaitingTime()) +  "   " + decimalFormat.format(slms3.getAverageM()));
+					out.println("SLMS 5:\t" + slms5.getTime() + "\t" + decimalFormat.format(slms5.getAverageWaitingTime()) +  "   " + decimalFormat.format(slms5.getAverageM()));
 
-					out.println("MLMS 1:\t" + mlms1.getTime() + "\t" + decimalFormat.format(mlms1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlms1.getAverageM()));
-					out.println("MLMS 3:\t" + mlms3.getTime() + "\t" + decimalFormat.format(mlms3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlms3.getAverageM()));
-					out.println("MLMS 5:\t" + mlms5.getTime() + "\t" + decimalFormat.format(mlms5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlms5.getAverageM()));
+					out.println("MLMS 1:\t" + mlms1.getTime() + "\t" + decimalFormat.format(mlms1.getAverageWaitingTime()) +  "   " + decimalFormat.format(mlms1.getAverageM()));
+					out.println("MLMS 3:\t" + mlms3.getTime() + "\t" + decimalFormat.format(mlms3.getAverageWaitingTime()) +  "   " + decimalFormat.format(mlms3.getAverageM()));
+					out.println("MLMS 5:\t" + mlms5.getTime() + "\t" + decimalFormat.format(mlms5.getAverageWaitingTime()) +  "   " + decimalFormat.format(mlms5.getAverageM()));
 
-					out.println("MLMSBLL 1:\t" + mlmsbll1.getTime() + "\t" + decimalFormat.format(mlmsbll1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbll1.getAverageM()));
-					out.println("MLMSBLL 3:\t" + mlmsbll3.getTime() + "\t" + decimalFormat.format(mlmsbll3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbll3.getAverageM()));
-					out.println("MLMSBLL 5:\t" + mlmsbll5.getTime() + "\t" + decimalFormat.format(mlmsbll5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbll5.getAverageM()));
+					out.println("MLMSBLL 1:\t" + mlmsbll1.getTime() + "\t" + decimalFormat.format(mlmsbll1.getAverageWaitingTime()) +  "   " + decimalFormat.format(mlmsbll1.getAverageM()));
+					out.println("MLMSBLL 3:\t" + mlmsbll3.getTime() + "\t" + decimalFormat.format(mlmsbll3.getAverageWaitingTime()) +  "   " + decimalFormat.format(mlmsbll3.getAverageM()));
+					out.println("MLMSBLL 5:\t" + mlmsbll5.getTime() + "\t" + decimalFormat.format(mlmsbll5.getAverageWaitingTime()) +  "   " + decimalFormat.format(mlmsbll5.getAverageM()));
 
-					out.println("MLMSBWT 1:\t" + mlmsbwt1.getTime() + "\t" + decimalFormat.format(mlmsbwt1.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbwt1.getAverageM()));
-					out.println("MLMSBWT 3:\t" + mlmsbwt3.getTime() + "\t" + decimalFormat.format(mlmsbwt3.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbwt3.getAverageM()));
-					out.println("MLMSBWT 5:\t" + mlmsbwt5.getTime() + "\t" + decimalFormat.format(mlmsbwt5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbwt5.getAverageM()));
+					out.println("MLMSBWT 1:\t" + mlmsbwt1.getTime() + "\t" + decimalFormat.format(mlmsbwt1.getAverageWaitingTime()) +  "   " + decimalFormat.format(mlmsbwt1.getAverageM()));
+					out.println("MLMSBWT 3:\t" + mlmsbwt3.getTime() + "\t" + decimalFormat.format(mlmsbwt3.getAverageWaitingTime()) +  "   " + decimalFormat.format(mlmsbwt3.getAverageM()));
+					out.println("MLMSBWT 5:\t" + mlmsbwt5.getTime() + "\t" + decimalFormat.format(mlmsbwt5.getAverageWaitingTime()) +  "   " + decimalFormat.format(mlmsbwt5.getAverageM()));
 					out.close();
 					
 				n++;
