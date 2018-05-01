@@ -29,19 +29,23 @@ public class Main {
 		DataReader datar = new DataReader();
 //		SLLQueue<Customer> arrivalQueue = datar.readDataFiles();
 		String parentDirectory = "inputFiles";
-
+		int n = 0;
 		Scanner inputFile = new Scanner(new File(parentDirectory, "dataFiles.txt")); 
+		
+		while (inputFile.hasNext()) {
+		
 		try {
 			
 			/*
 			 * iterates through all the names in dataFiles.txt
 			 */
-			while (inputFile.hasNext()) {
-				SLLQueue<Customer> arrivalQueue = datar.readDataFiles(inputFile.next());
-				if(arrivalQueue.isEmpty()) System.out.println("empty");
-				if(!arrivalQueue.isEmpty()) System.out.println("no empty");
-				
-				System.out.println(inputFile.next());
+			
+				String name = inputFile.next();
+				SLLQueue<Customer> arrivalQueue = datar.readDataFiles(name);
+//				if(arrivalQueue.isEmpty()) System.out.println("empty");
+//				if(!arrivalQueue.isEmpty()) System.out.println("no empty");
+//				
+//				System.out.println(inputFile.next());
 				if(arrivalQueue.isEmpty()) throw new IndexOutOfBoundsException();
 				//if(arrivalQueue != null){
 				SLMS slms1 = new SLMS(arrivalQueue);
@@ -79,7 +83,7 @@ public class Main {
 					/*
 					 * creates the ouput file for good files in dataFiles.txt
 					 */
-					String fileName = inputFile.next().substring(0, inputFile.next().length() - 4) + "_OUT.txt" ;
+					String fileName = name.substring(0, 6) + "_OUT.txt" ;
 					PrintWriter out = new PrintWriter(new File(parentDirectory, fileName)); 
 					out.println("Number of Customers: " + slms1.getTotalNumOfCustomer());
 					DecimalFormat decimalFormat = new DecimalFormat("0.00");
@@ -104,30 +108,35 @@ public class Main {
 					out.println("MLMSBWT 5:\t" + mlmsbwt5.getTime() + "\t" + decimalFormat.format(mlmsbwt5.getAverageWaitingTime()) +  "\t" + decimalFormat.format(mlmsbwt5.getAverageM()));
 					out.close();
 					
-				
+				n++;
 			} 
-		} catch (FileNotFoundException e) {
+		
+		catch (FileNotFoundException e) {
 			/*
 			 * creates an output file for non existing files in dataFiles.txt
 			 */
-			String fileName = inputFile.next().substring(0, inputFile.next().length() - 4) + "_OUT.txt" ;
+			String fileName = "data_" + n + "_OUT.txt" ;
 			PrintWriter out = new PrintWriter(new File(parentDirectory, fileName)); 
 			out.println("Input file not found.");
-			inputFile.close();
+			out.close();
+			n++;
+			inputFile.nextLine();
 		} catch (IndexOutOfBoundsException e) {
 			/*
 			 * creates an output file for bad  files in dataFiles.txt
 			 */
-			String fileName = inputFile.next().substring(0, inputFile.next().length() - 4) + "_OUT.txt" ;
+			
+			
+			String fileName = "data_" + n + "_OUT.txt" ;
 			PrintWriter out = new PrintWriter(new File(parentDirectory, fileName)); 
 			out.println("Input file does not meet the expected format or it is empty");
-			inputFile.close();
-			if ( inputFile != null) {
-				inputFile.close();
-			}
+			out.close();
+			n++;
+			inputFile.nextLine();
 		}
-		inputFile.close();	
-
+	
+		}
+		inputFile.close();
 	}
 
 	public static SLLQueue<Customer> copyList (SLLQueue<Customer> custList) {
