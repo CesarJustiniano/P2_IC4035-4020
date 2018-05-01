@@ -93,7 +93,6 @@ public class Main {
 
 
 
-
 					/*
 					 * creates the ouput file for good files in dataFiles.txt
 					 */

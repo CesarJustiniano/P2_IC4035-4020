@@ -22,9 +22,8 @@ public class Server {
 		return !lineQueue.isEmpty();
 	}
 	
-	public void add(Customer client, int numLine, int iD){
+	public void add(Customer client, int numLine){
 		Customer c = client;
-		c.setiD(iD);
 		c.setLine(numLine);
 		lineQueue.enqueue(c);
 	}

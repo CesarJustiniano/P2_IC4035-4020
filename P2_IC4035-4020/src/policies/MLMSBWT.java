@@ -31,7 +31,7 @@ public class MLMSBWT {
         
     public void Service(int size) throws CloneNotSupportedException {
     	boolean isFirstClient = true;
-    	int iD = 0;
+    	//int iD = 0;
     	lines = new Server[size];
     	
     	for(int i=0;i<size;i++){
@@ -48,7 +48,7 @@ public class MLMSBWT {
 					isFirstClient = false;
 				}
 				
-				assignToLinePerWait(iD++);
+				assignToLinePerWait();
 								
 				Customer[] jobs = new Customer[size];
 				
@@ -106,7 +106,7 @@ public class MLMSBWT {
     	return true;
     }
     
-    private void assignToLinePerWait(int iD) throws CloneNotSupportedException{
+    private void assignToLinePerWait() throws CloneNotSupportedException{
     	int index = 0; 
     	long fastestLine = lines[index].getTotalWaitTime() + serverTimeRemaining(index);
     		
@@ -116,7 +116,7 @@ public class MLMSBWT {
             }
         }
         	
-        lines[index].add(arrivalQueue.dequeue(), index, iD);    	
+        lines[index].add(arrivalQueue.dequeue(), index);    	
     }
     
     private long serverTimeRemaining(int numServer) throws CloneNotSupportedException{
