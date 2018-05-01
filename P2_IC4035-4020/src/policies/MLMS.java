@@ -8,6 +8,14 @@ import customer.Customer;
 import queues.SLLQueue;
 import servers.Server;
 
+/**
+ * 
+ * @author JaiTorres13
+ * 	Jainel Marie Torres Santos (843-14-8932) (Sec. 030)
+ * @author CesarJustiniano 
+ *	Cesar Andres Justiniano Santiago (840-15-3720)(Sec. 030)
+ *
+ */
 public class MLMS {
 	private SLLQueue<Customer> arrivalQueue, serviceStartsQueue, serviceCompletedQueue;
 	private Server[] lines;
