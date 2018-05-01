@@ -14,6 +14,7 @@ public class Customer {
 		this.serviceTime = serviceTime;
 		this.line = 0;
 		this.m = 0;
+		this.waitingTime = 0;
 		isRecentlyServed = false;
 	}
 
