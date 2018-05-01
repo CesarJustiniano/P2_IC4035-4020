@@ -48,33 +48,47 @@ public class Main {
 //				System.out.println(inputFile.next());
 				if(arrivalQueue.isEmpty()) throw new IndexOutOfBoundsException();
 				//if(arrivalQueue != null){
-				SLMS slms1 = new SLMS(arrivalQueue);
+				
+				SLLQueue<Customer> cloneQueue = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue1 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue2 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue3 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue4 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue5 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue6 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue7 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue8 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue9 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue10 = copyList(arrivalQueue);
+				SLLQueue<Customer> cloneQueue11 = copyList(arrivalQueue);
+
+				SLMS slms1 = new SLMS(cloneQueue);
 				slms1.Service(1);
 				//System.out.println("SLMS 1:\t" + slms1.getTime() + "\t" + slms1.getAverageWaitingTime() +  "\t" + slms1.getAverageM());
-				SLMS slms3 = new SLMS(arrivalQueue.clone());
+				SLMS slms3 = new SLMS(cloneQueue1);
 				slms3.Service(3);
-				SLMS slms5 = new SLMS(arrivalQueue.clone());
+				SLMS slms5 = new SLMS(cloneQueue2);
 				slms5.Service(5);
 
-				MLMS mlms1 = new MLMS(arrivalQueue.clone());
+				MLMS mlms1 = new MLMS(cloneQueue3);
 				mlms1.Service(1);
-				MLMS mlms3 = new MLMS(arrivalQueue.clone());
+				MLMS mlms3 = new MLMS(cloneQueue4);
 				mlms3.Service(3);
-				MLMS mlms5 = new MLMS(arrivalQueue.clone());
+				MLMS mlms5 = new MLMS(cloneQueue5);
 				mlms5.Service(5);
 
-				MLMSBLL mlmsbll1 = new MLMSBLL(arrivalQueue.clone());
+				MLMSBLL mlmsbll1 = new MLMSBLL(cloneQueue6);
 				mlmsbll1.Service(1);
-				MLMSBLL mlmsbll3 = new MLMSBLL(arrivalQueue.clone());
+				MLMSBLL mlmsbll3 = new MLMSBLL(cloneQueue7);
 				mlmsbll3.Service(3);
-				MLMSBLL mlmsbll5 = new MLMSBLL(arrivalQueue.clone());
+				MLMSBLL mlmsbll5 = new MLMSBLL(cloneQueue8);
 				mlmsbll5.Service(5);
 
-				MLMSBWT mlmsbwt1 = new MLMSBWT(arrivalQueue.clone());
+				MLMSBWT mlmsbwt1 = new MLMSBWT(cloneQueue9);
 				mlmsbwt1.Service(1);
-				MLMSBWT mlmsbwt3 = new MLMSBWT(arrivalQueue.clone());
+				MLMSBWT mlmsbwt3 = new MLMSBWT(cloneQueue10);
 				mlmsbwt3.Service(3);
-				MLMSBWT mlmsbwt5 = new MLMSBWT(arrivalQueue.clone());
+				MLMSBWT mlmsbwt5 = new MLMSBWT(cloneQueue11);
 				mlmsbwt5.Service(5);
 
 
